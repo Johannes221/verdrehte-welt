@@ -1,0 +1,25 @@
+# WordPress
+wp-content/uploads/
+wp-content/cache/
+wp-content/backup-db/
+
+# Node
+node_modules/
+
+# Build
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Local Config
+.env.local
+docker-compose.override.yml
+
+# Logs
+*.log
