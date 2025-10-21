@@ -11,8 +11,8 @@
 <header class="site-header">
     <div class="container">
         <nav class="site-nav">
-            <a href="<?php echo home_url(); ?>" class="site-logo">
-                VERDREHTE WELT
+            <a href="<?php echo home_url(); ?>" class="site-logo" style="display: flex; align-items: center;">
+                <img src="<?php echo VW_THEME_URI; ?>/assets/images/logo.png" alt="Verdrehte Welt" style="height: 60px;">
             </a>
             
             <?php
