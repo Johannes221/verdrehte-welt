@@ -3,7 +3,7 @@
         <p>&copy; <?php echo date('Y'); ?> Verdrehte Welt - Techno Events in Heidelberg, Mannheim und Umgebung</p>
         
         <div class="footer-social">
-            <a href="https://instagram.com/verdrehtewelt" target="_blank">Instagram</a>
+            <a href="https://www.instagram.com/verdrehte.welt.official/" target="_blank">@verdrehte.welt.official</a>
         </div>
         
         <p style="font-size: 0.9rem; opacity: 0.6;">

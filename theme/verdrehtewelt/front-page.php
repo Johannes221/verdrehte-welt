@@ -107,7 +107,7 @@ get_header();
     <div class="container text-center">
         <h2>Folge Verdrehte Welt auf Instagram</h2>
         <p style="opacity: 0.8; margin: 20px 0;">Bleib auf dem Laufenden über neue Events, Behind-the-Scenes und mehr</p>
-        <a href="https://instagram.com/verdrehtewelt" target="_blank" class="btn">@verdrehtewelt</a>
+        <a href="https://www.instagram.com/verdrehte.welt.official/" target="_blank" class="btn">@verdrehte.welt.official</a>
     </div>
 </section>
 
