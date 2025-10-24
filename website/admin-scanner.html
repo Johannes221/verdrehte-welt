@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Admin Scanner - Verdrehte Welt</title>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .login-screen h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .login-screen p {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 40px;
+        }
+        
+        .login-form {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #000;
+            color: #fff;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #4CAF50;
+            color: #fff;
+        }
+        
+        .btn-primary:active {
+            background: #45a049;
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: #333;
+            color: #fff;
+            margin-top: 10px;
+        }
+        
+        .error-message {
+            background: #f44336;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Scanner Screen */
+        .scanner-screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .logout-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Scanner */
+        #reader {
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 2px solid #4CAF50;
+        }
+        
+        #reader video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .scanner-status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .scanner-status.scanning {
+            background: #1a1a1a;
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .scanner-status.success {
+            background: #4CAF50;
+            color: #fff;
+        }
+        
+        .scanner-status.error {
+            background: #f44336;
+            color: #fff;
+        }
+        
+        .scanner-status.warning {
+            background: #ff9800;
+            color: #000;
+        }
+        
+        /* Ticket Info */
+        .ticket-info {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .ticket-info.show {
+            display: block;
+        }
+        
+        .ticket-info h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .ticket-info p {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .ticket-info p strong {
+            opacity: 0.7;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.7;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .scanning {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="container">
+            <h1>🎫 Admin Scanner</h1>
+            <p>Verdrehte Welt Einlass-System</p>
+            
+            <div class="login-form">
+                <div id="login-error" class="error-message hidden"></div>
+                
+                <div class="form-group">
+                    <label for="password">Admin Passwort</label>
+                    <input type="password" id="password" placeholder="Passwort eingeben" autocomplete="off">
+                </div>
+                
+                <button class="btn btn-primary" onclick="login()">Anmelden</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scanner Screen -->
+    <div id="scanner-screen" class="scanner-screen">
+        <div class="container">
+            <div class="header">
+                <h2>QR Scanner</h2>
+                <button class="logout-btn" onclick="logout()">Abmelden</button>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-total">-</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-checked">-</div>
+                    <div class="stat-label">Eingecheckt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-remaining">-</div>
+                    <div class="stat-label">Verbleibend</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-refunded">-</div>
+                    <div class="stat-label">Erstattet</div>
+                </div>
+            </div>
+            
+            <!-- Scanner Status -->
+            <div id="scanner-status" class="scanner-status scanning">
+                Bereit zum Scannen
+            </div>
+            
+            <!-- QR Reader -->
+            <div id="reader"></div>
+            
+            <!-- Ticket Info -->
+            <div id="ticket-info" class="ticket-info">
+                <h3>Ticket Details</h3>
+                <div id="ticket-details"></div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="refreshStats()">Statistik aktualisieren</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://localhost:3000/api/v1'
+            : 'https://api.verdrehtewelt.de/api/v1';
+
+        let authToken = null;
+        let html5QrCode = null;
+        let isProcessing = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already logged in
+            authToken = localStorage.getItem('admin_token');
+            if (authToken) {
+                showScanner();
+            }
+            
+            // Allow Enter key on password field
+            document.getElementById('password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+        });
+
+        // Login
+        async function login() {
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('login-error');
+            
+            if (!password) {
+                errorEl.textContent = 'Bitte Passwort eingeben';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('admin_token', authToken);
+                    showScanner();
+                } else {
+                    errorEl.textContent = data.error || 'Login fehlgeschlagen';
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorEl.textContent = 'Verbindungsfehler';
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        // Logout
+        function logout() {
+            authToken = null;
+            localStorage.removeItem('admin_token');
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop();
+            }
+            document.getElementById('scanner-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('password').value = '';
+        }
+
+        // Show Scanner
+        async function showScanner() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('scanner-screen').style.display = 'block';
+            
+            // Load stats
+            await refreshStats();
+            
+            // Start scanner
+            startScanner();
+        }
+
+        // Start QR Scanner
+        function startScanner() {
+            html5QrCode = new Html5Qrcode("reader");
+            
+            const config = {
+                fps: 10,
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            };
+            
+            html5QrCode.start(
+                { facingMode: "environment" }, // Use back camera
+                config,
+                onScanSuccess,
+                onScanError
+            ).catch(err => {
+                console.error('Scanner start error:', err);
+                showStatus('error', 'Kamera konnte nicht gestartet werden');
+            });
+        }
+
+        // On Scan Success
+        async function onScanSuccess(decodedText, decodedResult) {
+            if (isProcessing) return;
+            isProcessing = true;
+            
+            // Vibrate if available
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+            
+            showStatus('scanning', 'Validiere Ticket...');
+            
+            try {
+                // Validate
+                const validateResponse = await fetch(`${API_BASE_URL}/admin/validate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ qrToken: decodedText })
+                });
+                
+                const validateData = await validateResponse.json();
+                
+                if (validateData.valid) {
+                    // Valid ticket - now check in
+                    const checkinResponse = await fetch(`${API_BASE_URL}/admin/checkin`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({ qrToken: decodedText })
+                    });
+                    
+                    const checkinData = await checkinResponse.json();
+                    
+                    if (checkinData.success) {
+                        showStatus('success', '✅ CHECK-IN ERFOLGREICH!');
+                        displayTicketInfo(validateData.ticket);
+                        refreshStats();
+                        
+                        // Vibrate success pattern
+                        if (navigator.vibrate) {
+                            navigator.vibrate([100, 50, 100]);
+                        }
+                    } else {
+                        showStatus('error', checkinData.message || 'Check-In fehlgeschlagen');
+                    }
+                } else {
+                    showStatus('error', '❌ ' + (validateData.message || 'Ticket ungültig'));
+                    
+                    // Vibrate error pattern
+                    if (navigator.vibrate) {
+                        navigator.vibrate([200, 100, 200, 100, 200]);
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Scan error:', error);
+                showStatus('error', 'Verbindungsfehler');
+            }
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                isProcessing = false;
+                showStatus('scanning', 'Bereit zum Scannen');
+                hideTicketInfo();
+            }, 3000);
+        }
+
+        function onScanError(errorMessage) {
+            // Ignore - happens constantly while scanning
+        }
+
+        // Show Status
+        function showStatus(type, message) {
+            const statusEl = document.getElementById('scanner-status');
+            statusEl.className = `scanner-status ${type}`;
+            statusEl.textContent = message;
+        }
+
+        // Display Ticket Info
+        function displayTicketInfo(ticket) {
+            const detailsEl = document.getElementById('ticket-details');
+            
+            let html = `
+                <p><strong>Ticket-ID:</strong> <span>${ticket.id.substring(0, 8)}...</span></p>
+                <p><strong>Typ:</strong> <span>${ticket.type}</span></p>
+                <p><strong>Preis:</strong> <span>${ticket.price}€</span></p>
+            `;
+            
+            if (ticket.orderInfo && ticket.orderInfo.name) {
+                html += `<p><strong>Name:</strong> <span>${ticket.orderInfo.name}</span></p>`;
+            }
+            
+            detailsEl.innerHTML = html;
+            document.getElementById('ticket-info').classList.add('show');
+        }
+
+        function hideTicketInfo() {
+            document.getElementById('ticket-info').classList.remove('show');
+        }
+
+        // Refresh Stats
+        async function refreshStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/stats?eventId=rave-dossenheim-2025`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('stat-total').textContent = data.total || 0;
+                document.getElementById('stat-checked').textContent = data.checkedIn || 0;
+                document.getElementById('stat-remaining').textContent = data.remaining || 0;
+                document.getElementById('stat-refunded').textContent = data.refunded || 0;
+                
+            } catch (error) {
+                console.error('Stats error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
