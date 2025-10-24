@@ -1,9 +1,7 @@
 // Event Detail Page JavaScript
 
-// API Base URL - Development: localhost:3000
-const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://localhost:3000/api/v1' 
-    : 'https://api.verdrehtewelt.de/api/v1';
+// API Base URL - Production
+const API_BASE_URL = 'https://verdrehte-welt.onrender.com/api/v1';
 
 let currentEvent = null;
 let selectedTicket = null;
