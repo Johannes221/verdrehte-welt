@@ -7,7 +7,7 @@ const EVENTS_DATA = [
         time: '22:00 – 05:00',
         location: 'Café-Leitstelle',
         address: 'Emil-Maier-Straße 16, 69115 Heidelberg',
-        genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
+        genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno', 'Schranz', 'Bounce Techno'],
         image: 'images/logo.png',
         imageType: 'contain',
         imagePosition: '50% 50%',
@@ -64,11 +64,11 @@ const EVENTS_DATA = [
     {
         id: 'leitstelle-2025',
         title: 'Tages-Rave in der Leitstelle',
-        date: '20.12.2025',
+        date: 'TBD',
         time: 'TBD',
         location: 'Leitstelle Heidelberg',
-        address: 'Emil-Julius-Gumbel-Platz 1, 69120 Heidelberg',
-        genres: ['Hard Techno', 'Dark Techno', 'Melodic Techno', 'Schranz'],
+        address: 'TBD',
+        genres: ['TBD'],
         image: 'images/logo.png',
         imageType: 'contain',
         description: `

@@ -7,6 +7,12 @@ const API_BASE_URL = (window.location.hostname === 'localhost' || window.locatio
 
 // Parse date string (DD.MM.YYYY) to Date object
 function parseEventDate(dateString) {
+    // Handle TBD dates
+    if (dateString === 'TBD' || !dateString) {
+        // Return far future date for TBD events
+        return new Date(2099, 11, 31);
+    }
+    
     const [day, month, year] = dateString.split('.');
     const parsedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     parsedDate.setHours(0, 0, 0, 0);

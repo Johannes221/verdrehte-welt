@@ -35,12 +35,44 @@
             <p>Techno Events in Heidelberg, Mannheim und Umgebung</p>
             
             <!-- Video Player -->
-            <div class="hero-video-container" style="margin: 30px auto; max-width: 800px;">
-                <video controls preload="metadata" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+            <div class="hero-video-container" style="margin: 30px auto; max-width: 600px; position: relative;">
+                <video id="heroVideo" preload="metadata" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
                     <source src="videos/5766af45-cbaa-4ff5-90ac-a3958088960f.MP4" type="video/mp4">
                     Dein Browser unterstützt das Video-Tag nicht.
                 </video>
+                <!-- Custom Play Button -->
+                <div id="customPlayBtn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s;">
+                    <div style="width: 0; height: 0; border-left: 25px solid #000; border-top: 15px solid transparent; border-bottom: 15px solid transparent; margin-left: 5px;"></div>
+                </div>
             </div>
+            <script>
+                // Custom video controls
+                const video = document.getElementById('heroVideo');
+                const playBtn = document.getElementById('customPlayBtn');
+                
+                function togglePlay() {
+                    if (video.paused) {
+                        video.play();
+                        playBtn.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        playBtn.style.opacity = '1';
+                    }
+                }
+                
+                playBtn.addEventListener('click', togglePlay);
+                video.addEventListener('click', togglePlay);
+                
+                video.addEventListener('play', () => playBtn.style.opacity = '0');
+                video.addEventListener('pause', () => playBtn.style.opacity = '1');
+                video.addEventListener('ended', () => playBtn.style.opacity = '1');
+                
+                // Show controls on hover
+                video.addEventListener('mouseenter', () => video.setAttribute('controls', 'controls'));
+                video.addEventListener('mouseleave', () => {
+                    if (video.paused) video.removeAttribute('controls');
+                });
+            </script>
             
             <a href="#events" class="btn">Tickets sichern</a>
             <br><br>
