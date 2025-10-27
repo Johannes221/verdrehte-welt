@@ -8,15 +8,23 @@ const API_BASE_URL = (window.location.hostname === 'localhost' || window.locatio
 // Parse date string (DD.MM.YYYY) to Date object
 function parseEventDate(dateString) {
     const [day, month, year] = dateString.split('.');
-    return new Date(year, month - 1, day);
+    const parsedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    parsedDate.setHours(0, 0, 0, 0);
+    return parsedDate;
 }
 
 // Check if event is in the past
 function isEventPast(event) {
+    // If explicitly marked as past, it's past
+    if (event.status === 'past') return true;
+    
     const eventDate = parseEventDate(event.date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return eventDate < today || event.status === 'past';
+    
+    console.log(`[Event Check] ${event.title}: ${event.date} -> ${eventDate.toLocaleDateString()} | Today: ${today.toLocaleDateString()} | Past: ${eventDate < today}`);
+    
+    return eventDate < today;
 }
 
 // Render single event card
@@ -63,12 +71,21 @@ function renderEventCard(event) {
 
 // Load Events (split into upcoming and past)
 function loadEvents() {
+    console.log('[loadEvents] Starting to load events...');
+    console.log('[loadEvents] Total events in EVENTS_DATA:', EVENTS_DATA.length);
+    
     const upcomingContainer = document.getElementById('upcoming-events-container');
     const pastContainer = document.getElementById('past-events-container');
     
-    if (!upcomingContainer && !pastContainer) return;
+    console.log('[loadEvents] Upcoming container found:', !!upcomingContainer);
+    console.log('[loadEvents] Past container found:', !!pastContainer);
+    
+    if (!upcomingContainer && !pastContainer) {
+        console.error('[loadEvents] No event containers found!');
+        return;
+    }
 
-    // Sort events by date (newest first for past, soonest first for upcoming)
+    // Sort events by date (soonest first)
     const sortedEvents = [...EVENTS_DATA].sort((a, b) => {
         return parseEventDate(a.date) - parseEventDate(b.date);
     });
@@ -77,12 +94,17 @@ function loadEvents() {
     const upcomingEvents = sortedEvents.filter(event => !isEventPast(event));
     const pastEvents = sortedEvents.filter(event => isEventPast(event)).reverse(); // Newest past events first
 
+    console.log('[loadEvents] Upcoming events:', upcomingEvents.length);
+    console.log('[loadEvents] Past events:', pastEvents.length);
+
     // Render upcoming events
     if (upcomingContainer) {
         if (upcomingEvents.length > 0) {
             upcomingContainer.innerHTML = upcomingEvents.map(renderEventCard).join('');
+            console.log('[loadEvents] Rendered', upcomingEvents.length, 'upcoming events');
         } else {
             upcomingContainer.innerHTML = '<p style="text-align: center; opacity: 0.6;">Keine kommenden Events</p>';
+            console.log('[loadEvents] No upcoming events to render');
         }
     }
 
@@ -90,8 +112,10 @@ function loadEvents() {
     if (pastContainer) {
         if (pastEvents.length > 0) {
             pastContainer.innerHTML = pastEvents.map(renderEventCard).join('');
+            console.log('[loadEvents] Rendered', pastEvents.length, 'past events');
         } else {
             pastContainer.innerHTML = '<p style="text-align: center; opacity: 0.6;">Keine vergangenen Events</p>';
+            console.log('[loadEvents] No past events to render');
         }
     }
 }
