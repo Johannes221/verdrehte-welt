@@ -1,27 +1,13 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-// Configure Email Transport
-let transporter;
+// Configure Email Service
+let resend = null;
 
 if (process.env.MAIL_API_KEY) {
-    // Using Resend or similar service
-    transporter = nodemailer.createTransport({
-        host: 'smtp.resend.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'resend',
-            pass: process.env.MAIL_API_KEY
-        }
-    });
+    resend = new Resend(process.env.MAIL_API_KEY);
+    console.log('[Email] Resend initialized');
 } else {
-    // Development: Log emails
-    transporter = {
-        sendMail: async (mailOptions) => {
-            console.log('[Email] Would send email:', mailOptions);
-            return { messageId: 'dev-' + Date.now() };
-        }
-    };
+    console.log('[Email] Running in dev mode - emails will be logged only');
 }
 
 // Send Ticket Email
@@ -104,18 +90,24 @@ async function sendTicketEmail(email, tickets, order) {
 </html>
         `;
         
-        const mailOptions = {
-            from: process.env.MAIL_FROM || 'noreply@verdrehtewelt.de',
-            to: email,
-            subject: '🎉 Deine Verdrehte Welt Tickets',
-            html
-        };
-        
-        const info = await transporter.sendMail(mailOptions);
-        
-        console.log(`[Email] Sent to ${email}, messageId: ${info.messageId}`);
-        
-        return info;
+        // Send with Resend or log in dev mode
+        if (resend) {
+            const data = await resend.emails.send({
+                from: process.env.MAIL_FROM || 'noreply@verdrehte-welt.com',
+                to: email,
+                subject: '🎉 Deine Verdrehte Welt Tickets',
+                html
+            });
+            
+            console.log(`[Email] Sent to ${email}, ID: ${data.id}`);
+            return data;
+        } else {
+            // Dev mode - just log
+            console.log(`[Email] DEV MODE - Would send to ${email}`);
+            console.log(`[Email] Subject: 🎉 Deine Verdrehte Welt Tickets`);
+            console.log(`[Email] Tickets: ${tickets.length}`);
+            return { messageId: 'dev-' + Date.now() };
+        }
         
     } catch (error) {
         console.error('[Email] Error:', error);

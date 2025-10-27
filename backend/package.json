@@ -12,14 +12,15 @@
   "author": "Verdrehte Welt",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^8.0.3",
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "axios": "^1.6.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
-    "qrcode": "^1.5.3",
-    "nodemailer": "^6.9.7",
+    "mongoose": "^8.8.3",
+    "nodemailer": "^6.9.16",
+    "qrcode": "^1.5.4",
+    "resend": "^4.0.0",
     "cloudinary": "^1.41.0"
   },
   "devDependencies": {
