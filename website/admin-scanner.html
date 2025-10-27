@@ -424,40 +424,85 @@
         }
 
         // Start QR Scanner
-        function startScanner() {
+        async function startScanner() {
+            console.log('[Scanner] Initializing scanner...');
+            console.log('[Scanner] User Agent:', navigator.userAgent);
+            console.log('[Scanner] Platform:', navigator.platform);
+            
             html5QrCode = new Html5Qrcode("reader");
             
+            // iOS Safari optimized config
             const config = {
                 fps: 10,
-                qrbox: { width: 250, height: 250 },
-                aspectRatio: 1.0
+                qrbox: function(viewfinderWidth, viewfinderHeight) {
+                    // Square QR box, 70% of the smaller dimension
+                    const minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
+                    const qrboxSize = Math.floor(minEdgeSize * 0.7);
+                    return {
+                        width: qrboxSize,
+                        height: qrboxSize
+                    };
+                },
+                aspectRatio: 1.0,
+                disableFlip: false,
+                videoConstraints: {
+                    facingMode: { ideal: "environment" },
+                    focusMode: "continuous",
+                    advanced: [{ zoom: 1.0 }]
+                }
             };
             
-            html5QrCode.start(
-                { facingMode: "environment" }, // Use back camera
-                config,
-                onScanSuccess,
-                onScanError
-            ).catch(err => {
-                console.error('Scanner start error:', err);
-                showStatus('error', 'Kamera konnte nicht gestartet werden');
-            });
+            console.log('[Scanner] Starting camera...');
+            
+            try {
+                // Try with environment camera first
+                await html5QrCode.start(
+                    { facingMode: { ideal: "environment" } },
+                    config,
+                    onScanSuccess,
+                    onScanError
+                );
+                console.log('[Scanner] Camera started successfully');
+            } catch (err) {
+                console.error('[Scanner] Environment camera failed:', err);
+                console.log('[Scanner] Trying with any available camera...');
+                
+                // Fallback: try with any camera
+                try {
+                    await html5QrCode.start(
+                        { facingMode: "user" },
+                        config,
+                        onScanSuccess,
+                        onScanError
+                    );
+                    console.log('[Scanner] Front camera started successfully');
+                } catch (err2) {
+                    console.error('[Scanner] All camera attempts failed:', err2);
+                    showStatus('error', 'Kamera konnte nicht gestartet werden. Bitte Kamera-Berechtigung prüfen.');
+                }
+            }
         }
 
         // On Scan Success
         async function onScanSuccess(decodedText, decodedResult) {
-            console.log('[Scanner] QR Code detected:', decodedText.substring(0, 50) + '...');
+            console.log('[Scanner] ✅ QR Code detected!');
+            console.log('[Scanner] Decoded text:', decodedText.substring(0, 50) + '...');
+            console.log('[Scanner] Result format:', decodedResult.result.format);
             
             if (isProcessing) {
-                console.log('[Scanner] Still processing previous scan, ignoring...');
+                console.log('[Scanner] ⏳ Still processing previous scan, ignoring...');
                 return;
             }
             
             isProcessing = true;
+            console.log('[Scanner] 🔒 Processing locked');
             
             // Vibrate if available
             if (navigator.vibrate) {
+                console.log('[Scanner] 📳 Vibrating...');
                 navigator.vibrate(200);
+            } else {
+                console.log('[Scanner] ❌ Vibration not supported');
             }
             
             showStatus('scanning', 'Validiere Ticket...');
