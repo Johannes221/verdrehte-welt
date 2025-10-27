@@ -583,16 +583,16 @@
                                 <span class="ticket-card-label">Email:</span>
                                 <span class="ticket-card-value"><small>${ticket.buyer.email}</small></span>
                             </div>
+                            ${ticket.checkedInAt ? `
+                                <div class="ticket-card-row">
+                                    <span class="ticket-card-label">Eingecheckt:</span>
+                                    <span class="ticket-card-value" style="color: #4CAF50; font-weight: 600;"><small>✓ ${new Date(ticket.checkedInAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'})}</small></span>
+                                </div>
+                            ` : ''}
                             <div class="ticket-card-row">
                                 <span class="ticket-card-label">Erstellt:</span>
                                 <span class="ticket-card-value"><small>${new Date(ticket.createdAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'})}</small></span>
                             </div>
-                            ${ticket.checkedInAt ? `
-                                <div class="ticket-card-row">
-                                    <span class="ticket-card-label">Check-In:</span>
-                                    <span class="ticket-card-value" style="color: #4CAF50;"><small>✓ ${new Date(ticket.checkedInAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'})}</small></span>
-                                </div>
-                            ` : ''}
                             <div class="ticket-card-actions">
                                 <button class="btn btn-secondary" style="width: 100%;" 
                                         onclick="showQR('${ticket.qrToken}', '${ticket.ticketId}', '${ticket.buyer.name}')">
