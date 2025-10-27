@@ -250,7 +250,12 @@ async function handleCheckout(e) {
     submitBtn.textContent = 'Wird verarbeitet...';
     
     try {
+        console.log('[Checkout] Starting checkout process...');
+        console.log('[Checkout] API Base URL:', API_BASE_URL);
+        console.log('[Checkout] Order data:', data);
+        
         // Step 1: Create Order
+        console.log('[Checkout] Creating order...');
         const orderResponse = await fetch(`${API_BASE_URL}/orders/create`, {
             method: 'POST',
             headers: {
@@ -259,14 +264,20 @@ async function handleCheckout(e) {
             body: JSON.stringify(data)
         });
         
+        console.log('[Checkout] Order response status:', orderResponse.status);
+        
         if (!orderResponse.ok) {
-            throw new Error('Bestellung konnte nicht erstellt werden');
+            const errorText = await orderResponse.text();
+            console.error('[Checkout] Order creation failed:', errorText);
+            throw new Error(`Bestellung fehlgeschlagen (${orderResponse.status})`);
         }
         
         const orderData = await orderResponse.json();
+        console.log('[Checkout] Order created:', orderData);
         const bestellungId = orderData.order._id;
         
         // Step 2: Create PayPal Order
+        console.log('[Checkout] Creating PayPal order for:', bestellungId);
         const paypalResponse = await fetch(`${API_BASE_URL}/payments/paypal/create-order`, {
             method: 'POST',
             headers: {
@@ -275,16 +286,23 @@ async function handleCheckout(e) {
             body: JSON.stringify({ bestellungId })
         });
         
+        console.log('[Checkout] PayPal response status:', paypalResponse.status);
+        
         if (!paypalResponse.ok) {
-            throw new Error('PayPal-Order konnte nicht erstellt werden');
+            const errorText = await paypalResponse.text();
+            console.error('[Checkout] PayPal creation failed:', errorText);
+            throw new Error(`PayPal-Order fehlgeschlagen (${paypalResponse.status})`);
         }
         
         const paypalData = await paypalResponse.json();
+        console.log('[Checkout] PayPal data:', paypalData);
         
         // Redirect to PayPal
         if (paypalData.approvalUrl) {
+            console.log('[Checkout] Redirecting to PayPal:', paypalData.approvalUrl);
             window.location.href = paypalData.approvalUrl;
         } else {
+            console.error('[Checkout] No approval URL in response');
             throw new Error('PayPal-URL nicht gefunden');
         }
         
