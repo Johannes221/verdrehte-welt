@@ -330,11 +330,15 @@
             </div>
             
             <button class="btn btn-secondary" onclick="refreshStats()">Statistik aktualisieren</button>
+            <a href="admin-tickets.html" class="btn btn-primary" style="display: block; text-align: center; margin-top: 15px; text-decoration: none;">
+                📋 Zur Ticket-Liste
+            </a>
         </div>
     </div>
 
     <script>
-        const API_BASE_URL = 'https://verdrehte-welt.onrender.com/api/v1';
+        // WICHTIG: Nach Render-Deployment diese URL ersetzen!
+        const API_BASE_URL = 'https://YOUR-BACKEND-NAME.onrender.com/api/v1';
 
         let authToken = null;
         let html5QrCode = null;
@@ -544,7 +548,7 @@
         // Refresh Stats
         async function refreshStats() {
             try {
-                const response = await fetch(`${API_BASE_URL}/admin/stats?eventId=rave-dossenheim-2025`, {
+                const response = await fetch(`${API_BASE_URL}/admin/stats?eventId=cafe-leitstelle-nov-2025`, {
                     headers: {
                         'Authorization': `Bearer ${authToken}`
                     }

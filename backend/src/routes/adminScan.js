@@ -213,6 +213,48 @@ router.post('/checkin', requireAdminAuth, async (req, res) => {
     }
 });
 
+// Get All Tickets (List View)
+router.get('/tickets', requireAdminAuth, async (req, res) => {
+    try {
+        const { eventId } = req.query;
+        
+        const query = eventId ? { eventId } : {};
+        
+        const tickets = await Ticket.find(query)
+            .populate('bestellungId')
+            .sort({ generiert_at: -1 })
+            .limit(500);
+        
+        const ticketList = tickets.map(ticket => ({
+            id: ticket._id,
+            ticketId: ticket._id.toString().slice(-8),
+            type: ticket.bezeichnung,
+            price: ticket.preis,
+            status: ticket.status,
+            buyer: {
+                email: ticket.kaeuferEmail,
+                name: ticket.bestellungId ? 
+                    `${ticket.bestellungId.vorname || ''} ${ticket.bestellungId.nachname || ''}`.trim() : 
+                    'N/A'
+            },
+            order: {
+                id: ticket.bestellungId?._id,
+                total: ticket.bestellungId?.summeBrutto
+            },
+            qrToken: ticket.qrToken,
+            eventId: ticket.eventId,
+            createdAt: ticket.generiert_at,
+            checkedInAt: ticket.eingecheckt_at || ticket.erstverwendung_at
+        }));
+        
+        res.json({ tickets: ticketList });
+        
+    } catch (error) {
+        console.error('[Admin Tickets] Error:', error);
+        res.status(500).json({ error: 'Tickets konnten nicht geladen werden' });
+    }
+});
+
 // Get Stats
 router.get('/stats', requireAdminAuth, async (req, res) => {
     try {

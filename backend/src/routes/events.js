@@ -4,8 +4,48 @@ const router = express.Router();
 // Static event data (könnte später aus DB kommen)
 const EVENTS = [
     {
+        id: 'cafe-leitstelle-nov-2025',
+        title: 'Party im Café-Leitstelle',
+        date: '28.11.2025',
+        time: '22:00 – 05:00',
+        location: 'Café-Leitstelle',
+        address: 'Emil-Maier-Straße 16, 69115 Heidelberg',
+        genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
+        image: '/images/events/event-2.jpg',
+        description: 'Verdrehte Welt präsentiert: Eine unvergessliche Nacht im Café-Leitstelle Heidelberg!',
+        tickets: [
+            {
+                id: 'early-bird',
+                name: 'Early Bird',
+                price: 8.00,
+                available: true,
+                availableUntil: '16.11.2025 23:59',
+                kontingent: 100,
+                verkauft: 0
+            },
+            {
+                id: 'vvk',
+                name: 'VVK',
+                price: 10.00,
+                available: true,
+                availableUntil: '26.11.2025 23:59',
+                kontingent: 150,
+                verkauft: 0
+            },
+            {
+                id: 'door',
+                name: 'Abendkasse',
+                price: 12.00,
+                available: false,
+                kontingent: 50,
+                verkauft: 0
+            }
+        ],
+        status: 'available'
+    },
+    {
         id: 'rave-dossenheim-2025',
-        title: 'Rave in Dossenheim',
+        title: 'Private Rave in Dossenheim',
         date: '25.10.2025',
         time: '21:00 – 05:00',
         location: 'Im Weiher',
@@ -13,18 +53,8 @@ const EVENTS = [
         genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
         image: '/images/events/event-1.jpg',
         description: 'Bereite dich auf eine unvergessliche Nacht voller energiegeladener Beats vor!',
-        tickets: [
-            {
-                id: 'early-bird',
-                name: 'Early Bird',
-                price: 8.00,
-                available: true,
-                availableUntil: '22.10.2025 23:59',
-                kontingent: 100,
-                verkauft: 0
-            }
-        ],
-        status: 'available'
+        tickets: [],
+        status: 'past'
     },
     {
         id: 'leitstelle-2025',

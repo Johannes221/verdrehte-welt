@@ -1,7 +1,7 @@
 // Event Detail Page JavaScript
 
-// API Base URL - Production
-const API_BASE_URL = 'https://verdrehte-welt.onrender.com/api/v1';
+// API Base URL - WICHTIG: Nach Render-Deployment diese URL ersetzen!
+const API_BASE_URL = 'https://YOUR-BACKEND-NAME.onrender.com/api/v1';
 
 let currentEvent = null;
 let selectedTicket = null;

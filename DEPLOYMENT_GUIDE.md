@@ -17,27 +17,35 @@
 - ✅ Checkout Flow
 - ✅ PayPal Integration
 - ✅ Success/Cancel Pages
-- ✅ **NEU: Admin Scanner mit Kamera** 📱
+- ✅ Admin Scanner mit Kamera 📱
+- ✅ **NEU: Admin Ticket-Liste** 🎫
 
 ---
 
-## 📱 ADMIN SCANNER - SOFORT TESTEN
+## 📱 ADMIN TOOLS - SOFORT TESTEN
 
-### Zugriff:
+### 1. Ticket-Liste (NEU! 🎫):
+```
+http://localhost:8080/admin-tickets.html
+```
+- Alle verkauften Tickets anzeigen
+- Name, Email, QR-Code
+- Filter nach Event, Status
+- Suche nach Käufer
+- QR-Codes anzeigen/drucken
+
+### 2. QR Scanner:
 ```
 http://localhost:8080/admin-scanner.html
 ```
+- QR-Code Scanner (nutzt Handy-Kamera)
+- Live-Validierung
+- Auto Check-In
+- Statistiken
+- Vibration-Feedback
 
 ### Login:
 **Passwort:** `verdrehtewelt2025`
-
-### Features:
-- ✅ QR-Code Scanner (nutzt Handy-Kamera)
-- ✅ Live-Validierung
-- ✅ Auto Check-In
-- ✅ Statistiken (Total, Eingecheckt, Verbleibend)
-- ✅ Vibration-Feedback
-- ✅ iOS & Android kompatibel
 
 ---
 
@@ -80,7 +88,8 @@ Das generiert automatisch alle Tickets für bezahlte Orders und sendet die Email
 - ✅ event.html (Event Details & Checkout)
 - ✅ payment-success.html
 - ✅ payment-cancel.html
-- ✅ **admin-scanner.html** (NEU! 📱)
+- ✅ admin-scanner.html (Scanner) 📱
+- ✅ **admin-tickets.html (Ticket-Liste) 🎫**
 - ✅ agb.html, datenschutz.html, impressum.html
 - ✅ css/ (Styles)
 - ✅ js/ (JavaScript)
@@ -111,8 +120,17 @@ zip -r website-deploy.zip website/
 **WICHTIG:** Nachdem Frontend deployed ist, musst du die API-URL in den JS-Dateien anpassen:
 
 ```javascript
-// In: event.html, payment-success.html, admin-scanner.html
-const API_BASE_URL = 'https://DEINE-BACKEND-URL.com/api/v1';
+// In: js/event-detail.js
+const API_BASE_URL = 'https://DEINE-BACKEND-URL.onrender.com/api/v1';
+
+// In: payment-success.html
+const API_BASE_URL = 'https://DEINE-BACKEND-URL.onrender.com/api/v1';
+
+// In: admin-scanner.html
+const API_BASE_URL = 'https://DEINE-BACKEND-URL.onrender.com/api/v1';
+
+// In: admin-tickets.html
+const API_BASE_URL = 'https://DEINE-BACKEND-URL.onrender.com/api/v1';
 ```
 
 ---
