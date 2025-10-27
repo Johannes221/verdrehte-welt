@@ -123,38 +123,54 @@
             font-weight: 600;
         }
         
-        .ticket-table {
-            width: 100%;
+        .ticket-card {
             background: #1a1a1a;
+            padding: 20px;
             border-radius: 12px;
             border: 1px solid #333;
-            overflow-x: auto;
+            margin-bottom: 20px;
         }
         
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .ticket-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
         
-        thead {
-            background: #111;
-        }
-        
-        th {
-            padding: 15px;
-            text-align: left;
+        .ticket-card .header .name {
+            font-size: 1.2rem;
             font-weight: 600;
-            border-bottom: 2px solid #333;
-            white-space: nowrap;
         }
         
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #222;
+        .ticket-card .header .status {
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
         
-        tbody tr:hover {
-            background: #222;
+        .ticket-card .info {
+            margin-bottom: 10px;
+        }
+        
+        .ticket-card .info .label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+        
+        .ticket-card .info .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .ticket-card .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .ticket-card .actions .btn {
+            padding: 8px 16px;
         }
         
         .status-badge {
@@ -402,35 +418,33 @@
                 return;
             }
             
-            const html = `
+            const tableHtml = `
                 <div class="ticket-table">
                     <table>
                         <thead>
                             <tr>
                                 <th>Ticket-ID</th>
-                                <th>Typ</th>
-                                <th>Preis</th>
                                 <th>Käufer</th>
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Erstellt</th>
-                                <th>QR-Code</th>
+                                <th>Check-In</th>
+                                <th>QR</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${filtered.map(ticket => `
                                 <tr>
                                     <td><strong>${ticket.ticketId}</strong></td>
-                                    <td>${ticket.type}</td>
-                                    <td>${ticket.price.toFixed(2)} €</td>
                                     <td>${ticket.buyer.name}</td>
                                     <td><small>${ticket.buyer.email}</small></td>
                                     <td><span class="status-badge status-${ticket.status}">${ticket.status}</span></td>
-                                    <td><small>${new Date(ticket.createdAt).toLocaleString('de-DE')}</small></td>
+                                    <td><small>${new Date(ticket.createdAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'})}</small></td>
+                                    <td><small>${ticket.checkedInAt ? new Date(ticket.checkedInAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'}) : '-'}</small></td>
                                     <td>
                                         <button class="btn btn-secondary" style="padding: 8px 12px; font-size: 12px;" 
                                                 onclick="showQR('${ticket.qrToken}', '${ticket.ticketId}', '${ticket.buyer.name}')">
-                                            QR anzeigen
+                                            QR
                                         </button>
                                     </td>
                                 </tr>
@@ -439,6 +453,45 @@
                     </table>
                 </div>
             `;
+            
+            const cardsHtml = `
+                <div class="ticket-cards">
+                    ${filtered.map(ticket => `
+                        <div class="ticket-card">
+                            <div class="ticket-card-header">
+                                <div class="ticket-card-id">${ticket.ticketId}</div>
+                                <span class="status-badge status-${ticket.status}">${ticket.status}</span>
+                            </div>
+                            <div class="ticket-card-row">
+                                <span class="ticket-card-label">Käufer:</span>
+                                <span class="ticket-card-value">${ticket.buyer.name}</span>
+                            </div>
+                            <div class="ticket-card-row">
+                                <span class="ticket-card-label">Email:</span>
+                                <span class="ticket-card-value"><small>${ticket.buyer.email}</small></span>
+                            </div>
+                            <div class="ticket-card-row">
+                                <span class="ticket-card-label">Erstellt:</span>
+                                <span class="ticket-card-value"><small>${new Date(ticket.createdAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'})}</small></span>
+                            </div>
+                            ${ticket.checkedInAt ? `
+                                <div class="ticket-card-row">
+                                    <span class="ticket-card-label">Check-In:</span>
+                                    <span class="ticket-card-value" style="color: #4CAF50;"><small>✓ ${new Date(ticket.checkedInAt).toLocaleString('de-DE', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'})}</small></span>
+                                </div>
+                            ` : ''}
+                            <div class="ticket-card-actions">
+                                <button class="btn btn-secondary" style="width: 100%;" 
+                                        onclick="showQR('${ticket.qrToken}', '${ticket.ticketId}', '${ticket.buyer.name}')">
+                                    📱 QR-Code anzeigen
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            const html = tableHtml + cardsHtml;
             
             document.getElementById('ticket-container').innerHTML = html;
         }
