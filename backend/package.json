@@ -8,11 +8,16 @@
     "dev": "nodemon src/server.js",
     "test": "echo \"No tests yet\""
   },
-  "keywords": ["ticketing", "paypal", "events"],
+  "keywords": [
+    "ticketing",
+    "paypal",
+    "events"
+  ],
   "author": "Verdrehte Welt",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.7.9",
+    "cloudinary": "^1.41.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
@@ -20,8 +25,7 @@
     "mongoose": "^8.8.3",
     "nodemailer": "^6.9.16",
     "qrcode": "^1.5.4",
-    "resend": "^4.0.0",
-    "cloudinary": "^1.41.0"
+    "resend": "^4.8.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
