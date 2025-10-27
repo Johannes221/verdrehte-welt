@@ -18,18 +18,32 @@ async function sendTicketEmail(email, tickets, order) {
             console.log(`[Email] Ticket ${i+1}: ID=${t._id}, hasQR=${!!t.qrCodeUrl}, qrLength=${t.qrCodeUrl?.length || 0}`);
         });
         
+        // Prepare attachments for QR codes
+        const attachments = tickets.map((ticket, index) => {
+            if (!ticket.qrCodeUrl) return null;
+            
+            // Extract base64 data from data URL
+            const base64Data = ticket.qrCodeUrl.replace(/^data:image\/png;base64,/, '');
+            
+            return {
+                filename: `ticket-${ticket._id}.png`,
+                content: base64Data,
+                encoding: 'base64',
+                cid: `qr-${ticket._id}` // Content ID for inline images
+            };
+        }).filter(Boolean);
+        
         const ticketList = tickets.map((ticket, index) => `
             <div style="margin: 20px 0; padding: 20px; border: 2px solid #333; background: #1a1a1a;">
                 <h3 style="margin: 0 0 15px 0;">Ticket ${index + 1}: ${ticket.bezeichnung}</h3>
                 <p style="margin: 10px 0;"><strong>Preis:</strong> ${ticket.preis.toFixed(2)} €</p>
                 <p style="margin: 10px 0;"><strong>Ticket-ID:</strong> ${ticket._id}</p>
                 <div style="text-align: center; margin: 20px 0;">
-                    <img src="${ticket.qrCodeUrl}" alt="QR Code" style="max-width: 300px; width: 100%;">
+                    <img src="cid:qr-${ticket._id}" alt="QR Code Ticket ${index + 1}" style="max-width: 300px; width: 100%; display: block; margin: 0 auto;">
                 </div>
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 15px;">
                     Zeige diesen QR-Code am Einlass vor. Jedes Ticket kann nur einmal verwendet werden.
                 </p>
-                ${!ticket.qrCodeUrl ? '<p style="color: #ff6b6b;">⚠️ QR-Code konnte nicht generiert werden. Bitte kontaktiere uns!</p>' : ''}
             </div>
         `).join('');
         
@@ -98,12 +112,16 @@ async function sendTicketEmail(email, tickets, order) {
         
         // Send with Resend or log in dev mode
         if (resend) {
-            const data = await resend.emails.send({
+            const emailData = {
                 from: process.env.MAIL_FROM || 'noreply@verdrehte-welt.com',
                 to: email,
                 subject: '🎉 Deine Verdrehte Welt Tickets',
-                html
-            });
+                html,
+                attachments
+            };
+            
+            console.log(`[Email] Sending with ${attachments.length} QR code attachments`);
+            const data = await resend.emails.send(emailData);
             
             console.log(`[Email] Sent to ${email}, ID: ${data.id}`);
             return data;
@@ -112,6 +130,7 @@ async function sendTicketEmail(email, tickets, order) {
             console.log(`[Email] DEV MODE - Would send to ${email}`);
             console.log(`[Email] Subject: 🎉 Deine Verdrehte Welt Tickets`);
             console.log(`[Email] Tickets: ${tickets.length}`);
+            console.log(`[Email] Attachments: ${attachments.length}`);
             return { messageId: 'dev-' + Date.now() };
         }
         
