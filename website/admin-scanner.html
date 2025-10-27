@@ -455,9 +455,9 @@
             console.log('[Scanner] Starting camera...');
             
             try {
-                // Try with environment camera first
+                // Try with environment camera first (back camera)
                 await html5QrCode.start(
-                    { facingMode: { ideal: "environment" } },
+                    { facingMode: "environment" },
                     config,
                     onScanSuccess,
                     onScanError
@@ -465,9 +465,9 @@
                 console.log('[Scanner] Camera started successfully');
             } catch (err) {
                 console.error('[Scanner] Environment camera failed:', err);
-                console.log('[Scanner] Trying with any available camera...');
+                console.log('[Scanner] Trying with front camera...');
                 
-                // Fallback: try with any camera
+                // Fallback: try with front camera
                 try {
                     await html5QrCode.start(
                         { facingMode: "user" },
