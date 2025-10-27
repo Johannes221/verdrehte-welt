@@ -143,16 +143,20 @@ router.post('/validate', requireAdminAuth, async (req, res) => {
 // Check In Ticket
 router.post('/checkin', requireAdminAuth, async (req, res) => {
     try {
+        console.log('[Admin Check-In] Request received');
         const { qrToken } = req.body;
         
         if (!qrToken) {
-            return res.status(400).json({ error: 'QR Token fehlt' });
+            console.log('[Admin Check-In] Missing qrToken');
+            return res.status(400).json({ success: false, error: 'QR Token fehlt' });
         }
         
+        console.log('[Admin Check-In] Verifying token...');
         // Verify JWT
         const verification = verifyQRToken(qrToken);
         
         if (!verification.valid) {
+            console.log('[Admin Check-In] Invalid token:', verification.error);
             return res.json({
                 success: false,
                 reason: 'INVALID_TOKEN',
@@ -160,10 +164,12 @@ router.post('/checkin', requireAdminAuth, async (req, res) => {
             });
         }
         
+        console.log('[Admin Check-In] Finding ticket:', verification.ticketId);
         // Find Ticket
         const ticket = await Ticket.findById(verification.ticketId);
         
         if (!ticket) {
+            console.log('[Admin Check-In] Ticket not found:', verification.ticketId);
             return res.json({
                 success: false,
                 reason: 'TICKET_NOT_FOUND',
@@ -171,8 +177,11 @@ router.post('/checkin', requireAdminAuth, async (req, res) => {
             });
         }
         
+        console.log('[Admin Check-In] Ticket found, status:', ticket.status);
+        
         // Check if already checked in
         if (ticket.status === 'eingecheckt') {
+            console.log('[Admin Check-In] Already checked in');
             return res.json({
                 success: false,
                 reason: 'ALREADY_CHECKED_IN',
@@ -183,6 +192,7 @@ router.post('/checkin', requireAdminAuth, async (req, res) => {
         
         // Check if refunded
         if (ticket.status === 'erstattet') {
+            console.log('[Admin Check-In] Ticket refunded');
             return res.json({
                 success: false,
                 reason: 'REFUNDED',
@@ -191,11 +201,12 @@ router.post('/checkin', requireAdminAuth, async (req, res) => {
         }
         
         // Check in!
+        console.log('[Admin Check-In] Checking in ticket...');
         ticket.status = 'eingecheckt';
         ticket.eingecheckt_at = new Date();
         await ticket.save();
         
-        console.log(`[Admin Check-In] Ticket ${ticket._id} checked in`);
+        console.log(`[Admin Check-In] SUCCESS: Ticket ${ticket._id} checked in`);
         
         res.json({
             success: true,
@@ -209,7 +220,12 @@ router.post('/checkin', requireAdminAuth, async (req, res) => {
         
     } catch (error) {
         console.error('[Admin Check-In] Error:', error);
-        res.status(500).json({ error: 'Check-In fehlgeschlagen' });
+        console.error('[Admin Check-In] Stack:', error.stack);
+        res.status(500).json({ 
+            success: false,
+            error: 'Check-In fehlgeschlagen',
+            message: error.message 
+        });
     }
 });
 

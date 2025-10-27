@@ -497,10 +497,15 @@
                     
                     console.log('[Scanner] Checkin response status:', checkinResponse.status);
                     
-                    const checkinData = await checkinResponse.json();
+                    let checkinData;
+                    try {
+                        checkinData = await checkinResponse.json();
+                    } catch (e) {
+                        checkinData = { success: false, message: 'Backend-Fehler' };
+                    }
                     console.log('[Scanner] Checkin result:', checkinData);
                     
-                    if (checkinData.success) {
+                    if (checkinResponse.ok && checkinData.success) {
                         console.log('[Scanner] CHECK-IN SUCCESS!');
                         showStatus('success', '✅ CHECK-IN ERFOLGREICH!');
                         displayTicketInfo(validateData.ticket);
@@ -511,8 +516,9 @@
                             navigator.vibrate([100, 50, 100]);
                         }
                     } else {
-                        console.warn('[Scanner] Checkin failed:', checkinData.message);
-                        showStatus('error', checkinData.message || 'Check-In fehlgeschlagen');
+                        const errorMsg = checkinData.message || checkinData.error || 'Check-In fehlgeschlagen (500)';
+                        console.warn('[Scanner] Checkin failed:', errorMsg);
+                        showStatus('error', '❌ ' + errorMsg);
                     }
                 } else {
                     console.warn('[Scanner] Ticket invalid:', validateData.message);
