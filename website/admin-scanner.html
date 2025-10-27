@@ -444,7 +444,13 @@
 
         // On Scan Success
         async function onScanSuccess(decodedText, decodedResult) {
-            if (isProcessing) return;
+            console.log('[Scanner] QR Code detected:', decodedText.substring(0, 50) + '...');
+            
+            if (isProcessing) {
+                console.log('[Scanner] Still processing previous scan, ignoring...');
+                return;
+            }
+            
             isProcessing = true;
             
             // Vibrate if available
@@ -455,6 +461,8 @@
             showStatus('scanning', 'Validiere Ticket...');
             
             try {
+                console.log('[Scanner] Validating ticket...');
+                
                 // Validate
                 const validateResponse = await fetch(`${API_BASE_URL}/admin/validate`, {
                     method: 'POST',
@@ -465,9 +473,18 @@
                     body: JSON.stringify({ qrToken: decodedText })
                 });
                 
+                console.log('[Scanner] Validate response status:', validateResponse.status);
+                
+                if (!validateResponse.ok) {
+                    throw new Error(`Validation failed: ${validateResponse.status}`);
+                }
+                
                 const validateData = await validateResponse.json();
+                console.log('[Scanner] Validate result:', validateData);
                 
                 if (validateData.valid) {
+                    console.log('[Scanner] Ticket valid, checking in...');
+                    
                     // Valid ticket - now check in
                     const checkinResponse = await fetch(`${API_BASE_URL}/admin/checkin`, {
                         method: 'POST',
@@ -478,9 +495,13 @@
                         body: JSON.stringify({ qrToken: decodedText })
                     });
                     
+                    console.log('[Scanner] Checkin response status:', checkinResponse.status);
+                    
                     const checkinData = await checkinResponse.json();
+                    console.log('[Scanner] Checkin result:', checkinData);
                     
                     if (checkinData.success) {
+                        console.log('[Scanner] CHECK-IN SUCCESS!');
                         showStatus('success', '✅ CHECK-IN ERFOLGREICH!');
                         displayTicketInfo(validateData.ticket);
                         refreshStats();
@@ -490,9 +511,11 @@
                             navigator.vibrate([100, 50, 100]);
                         }
                     } else {
+                        console.warn('[Scanner] Checkin failed:', checkinData.message);
                         showStatus('error', checkinData.message || 'Check-In fehlgeschlagen');
                     }
                 } else {
+                    console.warn('[Scanner] Ticket invalid:', validateData.message);
                     showStatus('error', '❌ ' + (validateData.message || 'Ticket ungültig'));
                     
                     // Vibrate error pattern
@@ -502,16 +525,18 @@
                 }
                 
             } catch (error) {
-                console.error('Scan error:', error);
-                showStatus('error', 'Verbindungsfehler');
+                console.error('[Scanner] ERROR:', error);
+                showStatus('error', 'Fehler: ' + error.message);
+            } finally {
+                // Always reset, even if error occurs
+                console.log('[Scanner] Resetting scanner state in 3 seconds...');
+                setTimeout(() => {
+                    isProcessing = false;
+                    showStatus('scanning', 'Bereit zum Scannen');
+                    hideTicketInfo();
+                    console.log('[Scanner] Ready for next scan');
+                }, 3000);
             }
-            
-            // Reset after 3 seconds
-            setTimeout(() => {
-                isProcessing = false;
-                showStatus('scanning', 'Bereit zum Scannen');
-                hideTicketInfo();
-            }, 3000);
         }
 
         function onScanError(errorMessage) {
