@@ -66,7 +66,8 @@ const EVENTS_DATA = [
         imageType: 'contain',
         description: `
             <p><strong style="color: #999;">✓ Vergangenes Event</strong></p>
-            <p>Unser erstes Private Rave Event in Dossenheim! Eine unvergessliche Nacht voller energiegeladener Beats.</p>
+            <p>Unser erstes Private Rave Event in Dossenheim! Eine unvergessliche Nacht voller energiegeladener Beats und unvergesslicher Momente. Die Energie war elektrisierend, die Crowd unglaublich – ein perfekter Start für Verdrehte Welt!</p>
+            <p style="margin-top: 20px;"><a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MDQzNTU4MTk1ODc3NTY4?story_media_id=3472914137408055693&igsh=MWt3aDc2am1xcXJycQ==" target="_blank" style="color: #e91e63; text-decoration: underline;">📹 Schau dir die Highlights vom Rave an!</a></p>
         `,
         tickets: [],
         status: 'past'
@@ -83,7 +84,25 @@ const EVENTS_DATA = [
         imageType: 'contain',
         description: `
             <p><strong style="color: #999;">✓ Vergangenes Event</strong></p>
-            <p>Unser zweites Private Rave Event in Dossenheim! Die Fortsetzung einer legendären Nacht.</p>
+            <p>Die Fortsetzung einer legendären Nacht! PrivateRave 2.0 hat alle Erwartungen übertroffen – noch intensiver, noch wilder, noch unvergesslicher. Danke an alle, die dabei waren!</p>
+            <p style="margin-top: 20px;"><a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTIzMzExMzM5MTUxNjg5?story_media_id=3752187602683072221&igsh=czIyemQzcWhxMTR0" target="_blank" style="color: #e91e63; text-decoration: underline;">📹 Erlebe die besten Momente!</a></p>
+        `,
+        tickets: [],
+        status: 'past'
+    },
+    {
+        id: 'rooftop-party-mannheim',
+        title: 'Rooftop Party Mannheim',
+        date: '26.07.2024',
+        time: '20:00 – 03:00',
+        location: 'Mannheim',
+        address: 'Rooftop Location, Mannheim',
+        genres: ['Techno', 'House', 'Melodic Techno'],
+        image: 'images/events/IMG_8760 2.jpg',
+        imageType: 'cover',
+        description: `
+            <p><strong style="color: #999;">✓ Vergangenes Event</strong></p>
+            <p>Eine magische Sommernacht auf den Dächern Mannheims! Bei Sonnenuntergang und unter freiem Himmel haben wir bis in die frühen Morgenstunden gefeiert. Die perfekte Mischung aus entspannter Rooftop-Atmosphäre und treibenden Beats.</p>
         `,
         tickets: [],
         status: 'past'
