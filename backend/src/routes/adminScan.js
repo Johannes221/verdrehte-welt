@@ -111,7 +111,7 @@ router.post('/validate', requireAdminAuth, async (req, res) => {
                 ticket: {
                     id: ticket._id,
                     type: ticket.bezeichnung,
-                    checkedInAt: ticket.eingecheckt_at,
+                    checkedInAt: ticket.erstverwendung_at,
                     status: ticket.status
                 }
             });
