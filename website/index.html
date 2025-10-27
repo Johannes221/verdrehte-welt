@@ -33,24 +33,41 @@
         <div class="hero-content">
             <h1>VERDREHTE WELT</h1>
             <p>Techno Events in Heidelberg, Mannheim und Umgebung</p>
+            
+            <!-- Video Player -->
+            <div class="hero-video-container" style="margin: 30px auto; max-width: 800px;">
+                <video controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                    <source src="videos/5766af45-cbaa-4ff5-90ac-a3958088960f.MP4" type="video/mp4">
+                    Dein Browser unterstützt das Video-Tag nicht.
+                </video>
+            </div>
+            
             <a href="#events" class="btn">Tickets sichern</a>
             <br><br>
             <a href="#events" class="btn btn-outline">zu den nächsten Events</a>
         </div>
     </section>
 
-    <!-- Events Section -->
+    <!-- Upcoming Events Section -->
     <section class="events-section" id="events">
         <div class="container">
             <h2 class="section-title">Nächste Events</h2>
             <p class="section-subtitle">Holt euch eure Tickets für die nächsten Events</p>
 
-            <div class="events-grid" id="events-container">
-                <!-- Events werden dynamisch geladen -->
+            <div class="events-grid" id="upcoming-events-container">
+                <!-- Upcoming Events werden dynamisch geladen -->
             </div>
+        </div>
+    </section>
+    
+    <!-- Past Events Section -->
+    <section class="events-section" style="background: #0a0a0a;">
+        <div class="container">
+            <h2 class="section-title">Vergangene Events</h2>
+            <p class="section-subtitle">Unsere bisherigen Veranstaltungen</p>
 
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="#events" class="btn btn-outline">Alle Events ansehen</a>
+            <div class="events-grid" id="past-events-container">
+                <!-- Past Events werden dynamisch geladen -->
             </div>
         </div>
     </section>
@@ -61,6 +78,12 @@
             <h2>Folge Verdrehte Welt auf Instagram</h2>
             <p>Bleib auf dem Laufenden über neue Events, Behind-the-Scenes und mehr</p>
             <a href="https://www.instagram.com/verdrehte.welt.official/" target="_blank" class="btn">@verdrehte.welt.official</a>
+            
+            <!-- Instagram Embed -->
+            <div style="max-width: 540px; margin: 40px auto;">
+                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/verdrehte.welt.official/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"></blockquote>
+                <script async src="//www.instagram.com/embed.js"></script>
+            </div>
         </div>
     </section>
 

@@ -9,7 +9,7 @@
 
 .event-hero-image.contain {
     object-fit: contain;
-    background-color: #1a1a1a;
+    background-color: #000000;
     padding: 40px;
     height: 400px;
 }
@@ -18,7 +18,8 @@
 @media (min-width: 768px) {
     .event-hero-image.contain {
         height: 500px;
-        padding: 60px;
+        padding: 80px;
+        background-color: #000000;
     }
 }
 
