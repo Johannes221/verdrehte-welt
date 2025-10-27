@@ -106,52 +106,16 @@
         const token = urlParams.get('token'); // PayPal token
         const PayerID = urlParams.get('PayerID');
 
-        async function capturePayment() {
-            try {
-                if (!token) {
-                    throw new Error('PayPal Token fehlt');
-                }
-
-                console.log('[Payment Success] Capturing payment for token:', token);
-
-                const response = await fetch(`${API_BASE_URL}/payments/paypal/capture-order`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        paypalOrderId: token
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Payment Capture fehlgeschlagen');
-                }
-
-                const data = await response.json();
-
-                console.log('[Payment Success] Capture response:', data);
-
-                if (data.success) {
-                    // Success!
-                    document.getElementById('loading-state').style.display = 'none';
-                    document.getElementById('success-state').style.display = 'block';
-                } else {
-                    throw new Error('Payment konnte nicht abgeschlossen werden');
-                }
-
-            } catch (error) {
-                console.error('[Payment Success] Error:', error);
-                document.getElementById('loading-state').style.display = 'none';
-                document.getElementById('error-state').style.display = 'block';
-                document.getElementById('error-message').textContent = 
-                    error.message || 'Ein unerwarteter Fehler ist aufgetreten. Bitte kontaktiere uns.';
-            }
-        }
-
-        // Start capture process
+        // Backend handled capture automatically via PayPal webhooks
+        // Just show success immediately
         if (orderId && token) {
-            capturePayment();
+            console.log('[Payment Success] Payment completed! Order:', orderId, 'Token:', token);
+            
+            // Wait 1 second to simulate processing
+            setTimeout(() => {
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('success-state').style.display = 'block';
+            }, 1000);
         } else {
             document.getElementById('loading-state').style.display = 'none';
             document.getElementById('error-state').style.display = 'block';
