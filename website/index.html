@@ -36,8 +36,8 @@
             
             <!-- Video Player -->
             <div class="hero-video-container" style="margin: 30px auto; max-width: 600px; position: relative;">
-                <video id="heroVideo" preload="metadata" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
-                    <source src="videos/5766af45-cbaa-4ff5-90ac-a3958088960f.MP4" type="video/mp4">
+                <video id="heroVideo" preload="metadata" poster="" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;">
+                    <source src="videos/5766af45-cbaa-4ff5-90ac-a3958088960f.MP4#t=0.5" type="video/mp4">
                     Dein Browser unterstützt das Video-Tag nicht.
                 </video>
                 <!-- Custom Play Button -->
@@ -49,6 +49,29 @@
                 // Custom video controls
                 const video = document.getElementById('heroVideo');
                 const playBtn = document.getElementById('customPlayBtn');
+                
+                // Generate poster from video frame
+                video.addEventListener('loadeddata', function() {
+                    // Seek to 0.5 seconds to get a good frame
+                    if (video.readyState >= 2) {
+                        video.currentTime = 0.5;
+                    }
+                });
+                
+                video.addEventListener('seeked', function() {
+                    // Create canvas to capture frame
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    // Set as poster
+                    video.poster = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // Reset to beginning
+                    video.currentTime = 0;
+                }, { once: true });
                 
                 function togglePlay() {
                     if (video.paused) {
