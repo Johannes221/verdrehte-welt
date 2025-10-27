@@ -431,14 +431,14 @@
             
             html5QrCode = new Html5Qrcode("reader");
             
-            // iOS Safari optimized config - FLEXIBLE SCANNING
+            // iOS Safari optimized config - MAXIMUM FLEXIBILITY
             const config = {
-                fps: 20, // Increased FPS for faster detection
+                fps: 30, // Maximum FPS for fastest detection
                 qrbox: function(viewfinderWidth, viewfinderHeight) {
-                    // Larger QR box for more flexible scanning (85% of smaller dimension)
+                    // MAXIMUM scan area - 95% of screen for ultra-flexible scanning
                     const minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
-                    const qrboxSize = Math.floor(minEdgeSize * 0.85);
-                    console.log('[Scanner] QR box size:', qrboxSize, 'px');
+                    const qrboxSize = Math.floor(minEdgeSize * 0.95);
+                    console.log('[Scanner] QR box size:', qrboxSize, 'px (95% coverage)');
                     return {
                         width: qrboxSize,
                         height: qrboxSize
@@ -446,10 +446,12 @@
                 },
                 aspectRatio: 1.0,
                 disableFlip: false,
-                // Remove strict video constraints for better compatibility
+                // Enable all experimental features for best detection
                 experimentalFeatures: {
                     useBarCodeDetectorIfSupported: true
-                }
+                },
+                // Optimize for various QR code sizes
+                rememberLastUsedCamera: true
             };
             
             console.log('[Scanner] Starting camera...');
