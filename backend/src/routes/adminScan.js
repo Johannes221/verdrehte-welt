@@ -257,11 +257,10 @@ router.get('/tickets', requireAdminAuth, async (req, res) => {
                 id: ticket.bestellungId?._id,
                 total: ticket.bestellungId?.summeBrutto
             },
-            checkedInAt: ticket.eingecheckt_at,
             qrToken: ticket.qrToken,
             eventId: ticket.eventId,
             createdAt: ticket.generiert_at,
-            checkedInAt: ticket.eingecheckt_at || ticket.erstverwendung_at
+            checkedInAt: ticket.eingecheckt_at
         }));
         
         res.json({ tickets: ticketList });
