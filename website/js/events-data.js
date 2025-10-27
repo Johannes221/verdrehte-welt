@@ -17,65 +17,76 @@ const EVENTS_DATA = [
         `,
         tickets: [
             {
-                id: 'early-bird',
-                name: 'Early Bird',
+                id: 'phase-1',
+                name: 'Phase 1 (35 Tickets)',
                 price: 8.00,
                 availableFrom: null,
-                availableUntil: '2025-11-16T23:59:59',
-                description: 'Verfügbar bis 16.11.2025'
+                availableUntil: '2025-11-09T23:59:59',
+                maxTickets: 35,
+                description: 'Verfügbar bis 09.11.2025 - Limitiert auf 35 Tickets'
             },
             {
-                id: 'vvk',
-                name: 'Vorverkauf (VVK)',
+                id: 'phase-2',
+                name: 'Phase 2 (50 Tickets)',
                 price: 10.00,
-                availableFrom: '2025-11-17T00:00:00',
+                availableFrom: '2025-11-10T00:00:00',
+                availableUntil: '2025-11-19T23:59:59',
+                maxTickets: 50,
+                description: 'Verfügbar 10.11. - 19.11.2025 - Limitiert auf 50 Tickets'
+            },
+            {
+                id: 'phase-3',
+                name: 'Phase 3 (65 Tickets)',
+                price: 12.00,
+                availableFrom: '2025-11-20T00:00:00',
                 availableUntil: '2025-11-27T23:59:59',
-                description: 'Verfügbar ab 17.11. bis 27.11.2025'
+                maxTickets: 65,
+                description: 'Verfügbar 20.11. - 27.11.2025 - Limitiert auf 65 Tickets'
             },
             {
                 id: 'abendkasse',
                 name: 'Abendkasse',
-                price: 12.00,
+                price: 15.00,
                 availableFrom: '2025-11-28T00:00:00',
                 availableUntil: null,
-                description: 'Nur am Event-Tag vor Ort'
+                description: 'Nur am Event-Tag vor Ort - Limitiert'
             }
         ],
         status: 'available'
     },
     {
-        id: 'rave-dossenheim-2025',
-        title: 'Private Rave in Dossenheim',
-        date: '25.10.2025',
+        id: 'private-rave-1-dossenheim',
+        title: 'PrivateRave 1.0 in Dossenheim',
+        date: '05.10.2024',
         time: '21:00 – 05:00',
-        location: 'Im Weiher',
-        address: 'Im Weiher, 69121 Heidelberg',
+        location: 'Dossenheim',
+        address: 'Location: Unknown',
         genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
-        image: 'images/events/event-1.jpg',
-        imagePosition: '50% 30%',
+        image: 'images/logo.png',
+        imageType: 'contain',
         description: `
             <p><strong style="color: #999;">✓ Vergangenes Event</strong></p>
-            <p>Bereite dich auf eine unvergessliche Nacht voller energiegeladener Beats und atemberaubender Atmosphäre vor! Verdrehte Welt bringt die besten Techno-Sounds nach Dossenheim.</p>
-            <p>Rave in Dossenheim wird zum pulsierenden Zentrum der Nacht, wenn unsere handverlesenen DJs die Decks zum Glühen bringen. Von hartem Techno über melodische Klänge bis hin zu düsteren Beats – hier kommt jeder Techno-Liebhaber auf seine Kosten.</p>
+            <p>Unser erstes Private Rave Event in Dossenheim! Eine unvergessliche Nacht voller energiegeladener Beats.</p>
         `,
         tickets: [],
         status: 'past'
     },
     {
-        id: 'leitstelle-2025',
-        title: 'Tages-Rave in der Leitstelle',
-        date: 'TBD',
-        time: 'TBD',
-        location: 'Leitstelle Heidelberg',
-        address: 'TBD',
-        genres: ['TBD'],
+        id: 'private-rave-2-dossenheim',
+        title: 'PrivateRave 2.0 in Dossenheim',
+        date: '25.10.2025',
+        time: '21:00 – 05:00',
+        location: 'Dossenheim',
+        address: 'Location: Unknown',
+        genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
         image: 'images/logo.png',
         imageType: 'contain',
         description: `
-            <p>Kommt bald! Ein Tages-Rave der Extraklasse in der Leitstelle Heidelberg.</p>
+            <p><strong style="color: #999;">✓ Vergangenes Event</strong></p>
+            <p>Unser zweites Private Rave Event in Dossenheim! Die Fortsetzung einer legendären Nacht.</p>
         `,
         tickets: [],
-        status: 'coming-soon'
+        status: 'past'
     },
     {
         id: 'tbd-event',
