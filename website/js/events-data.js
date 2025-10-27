@@ -49,7 +49,7 @@ const EVENTS_DATA = [
                 price: 15.00,
                 availableFrom: '2025-11-28T00:00:00',
                 availableUntil: null,
-                description: 'Nur am Event-Tag vor Ort - Limitiert'
+                description: 'Nur am Event-Tag vor Ort - Limitiert | ⚠️ NUR BARGELD - keine Kartenzahlung'
             }
         ],
         status: 'available'
@@ -93,7 +93,7 @@ const EVENTS_DATA = [
     {
         id: 'rooftop-party-mannheim',
         title: 'Rooftop Party Mannheim',
-        date: '26.07.2024',
+        date: '26.07.2025',
         time: '20:00 – 03:00',
         location: 'Mannheim',
         address: 'Rooftop Location, Mannheim',
