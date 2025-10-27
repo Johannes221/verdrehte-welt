@@ -35,7 +35,7 @@ const ticketSchema = new mongoose.Schema({
     // Status
     status: {
         type: String,
-        enum: ['gueltig', 'eingelassen', 'erstattet', 'gesperrt'],
+        enum: ['gueltig', 'ungueltig', 'erstattet', 'eingecheckt'],
         default: 'gueltig',
         index: true
     },
