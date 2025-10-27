@@ -86,8 +86,14 @@ async function createTicket(data) {
         errorCorrectionLevel: 'H',
         type: 'image/png',
         width: 512,
-        margin: 2
+        margin: 2,
+        color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+        }
     });
+    
+    console.log(`[Ticket] Generated QR Code for ${ticketId}, length: ${qrCodeDataUrl.length}`);
     
     // Create Ticket
     const ticket = await Ticket.create({
@@ -99,9 +105,11 @@ async function createTicket(data) {
         preis: data.preis,
         kaeuferEmail: data.kaeuferEmail,
         qrToken,
-        qrCodeUrl: qrCodeDataUrl, // In production: upload to Cloudinary
+        qrCodeUrl: qrCodeDataUrl,
         status: 'gueltig'
     });
+    
+    console.log(`[Ticket] Created ticket ${ticketId} with QR URL: ${qrCodeDataUrl.substring(0, 50)}...`);
     
     return ticket;
 }

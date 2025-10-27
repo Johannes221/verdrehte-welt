@@ -13,6 +13,11 @@ if (process.env.MAIL_API_KEY) {
 // Send Ticket Email
 async function sendTicketEmail(email, tickets, order) {
     try {
+        console.log(`[Email] Preparing email for ${email} with ${tickets.length} tickets`);
+        tickets.forEach((t, i) => {
+            console.log(`[Email] Ticket ${i+1}: ID=${t._id}, hasQR=${!!t.qrCodeUrl}, qrLength=${t.qrCodeUrl?.length || 0}`);
+        });
+        
         const ticketList = tickets.map((ticket, index) => `
             <div style="margin: 20px 0; padding: 20px; border: 2px solid #333; background: #1a1a1a;">
                 <h3 style="margin: 0 0 15px 0;">Ticket ${index + 1}: ${ticket.bezeichnung}</h3>
@@ -24,6 +29,7 @@ async function sendTicketEmail(email, tickets, order) {
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 15px;">
                     Zeige diesen QR-Code am Einlass vor. Jedes Ticket kann nur einmal verwendet werden.
                 </p>
+                ${!ticket.qrCodeUrl ? '<p style="color: #ff6b6b;">⚠️ QR-Code konnte nicht generiert werden. Bitte kontaktiere uns!</p>' : ''}
             </div>
         `).join('');
         
@@ -62,7 +68,7 @@ async function sendTicketEmail(email, tickets, order) {
                     <li>Du kannst diese Email auch ausdrucken</li>
                     <li>Jeder QR-Code kann nur einmal gescannt werden</li>
                     <li>Teile deine Tickets nicht öffentlich</li>
-                    <li>Bei Problemen kontaktiere uns: info@verdrehtewelt.de</li>
+                    <li>Bei Problemen schreib uns auf Instagram oder per Email unter verdrehte.welt.ev@gmail.com</li>
                 </ul>
             </div>
             
