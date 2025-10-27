@@ -19,25 +19,25 @@ const EVENTS_DATA = [
                 id: 'early-bird',
                 name: 'Early Bird',
                 price: 8.00,
-                available: true,
-                availableUntil: '16.11.2025 23:59',
-                description: 'Verfügbar bis: 16.11.2025 23:59'
+                availableFrom: null,
+                availableUntil: '2025-11-16T23:59:59',
+                description: 'Verfügbar bis 16.11.2025'
             },
             {
                 id: 'vvk',
-                name: 'VVK',
+                name: 'Vorverkauf (VVK)',
                 price: 10.00,
-                available: true,
-                availableUntil: '26.11.2025 23:59',
-                description: 'Verfügbar bis: 26.11.2025 23:59'
+                availableFrom: '2025-11-17T00:00:00',
+                availableUntil: '2025-11-27T23:59:59',
+                description: 'Verfügbar ab 17.11. bis 27.11.2025'
             },
             {
-                id: 'door',
+                id: 'abendkasse',
                 name: 'Abendkasse',
                 price: 12.00,
-                available: false,
-                description: 'Nur in bar an der Kasse',
-                note: 'Nur vor Ort'
+                availableFrom: '2025-11-28T00:00:00',
+                availableUntil: null,
+                description: 'Nur am Event-Tag vor Ort'
             }
         ],
         status: 'available'
