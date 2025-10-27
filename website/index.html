@@ -15,7 +15,7 @@
 <body>
     <!-- Background Video Loop -->
     <div class="background-video-wrapper">
-        <video autoplay muted loop playsinline class="background-video">
+        <video autoplay muted loop playsinline class="background-video" preload="auto" webkit-playsinline="true" x5-playsinline="true">
             <source src="images/120c2467-dd84-4071-b9d8-000e86944d97.MP4" type="video/mp4">
         </video>
     </div>
@@ -155,5 +155,27 @@
 
     <script src="js/events-data.js"></script>
     <script src="js/main.js"></script>
+    
+    <!-- Background Video Mobile Fix -->
+    <script>
+        // Ensure background video plays on mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgVideo = document.querySelector('.background-video');
+            if (bgVideo) {
+                // Force play on load
+                bgVideo.play().catch(function(error) {
+                    console.log('Background video autoplay prevented:', error);
+                });
+                
+                // Retry play on user interaction
+                document.addEventListener('touchstart', function playOnTouch() {
+                    bgVideo.play().catch(function(error) {
+                        console.log('Background video play on touch failed:', error);
+                    });
+                    document.removeEventListener('touchstart', playOnTouch);
+                }, { once: true });
+            }
+        });
+    </script>
 </body>
 </html>
