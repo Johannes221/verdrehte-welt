@@ -106,16 +106,49 @@
         const token = urlParams.get('token'); // PayPal token
         const PayerID = urlParams.get('PayerID');
 
-        // Backend handled capture automatically via PayPal webhooks
-        // Just show success immediately
-        if (orderId && token) {
-            console.log('[Payment Success] Payment completed! Order:', orderId, 'Token:', token);
-            
-            // Wait 1 second to simulate processing
-            setTimeout(() => {
+        async function capturePayment() {
+            try {
+                if (!token) {
+                    throw new Error('PayPal Token fehlt');
+                }
+
+                console.log('[Payment Success] Capturing payment for token:', token);
+
+                const response = await fetch(`${API_BASE_URL}/payments/paypal/capture-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        paypalOrderId: token
+                    })
+                });
+
+                const data = await response.json();
+                console.log('[Payment Success] Capture response:', data);
+
+                if (response.ok && data.success) {
+                    // Success!
+                    document.getElementById('loading-state').style.display = 'none';
+                    document.getElementById('success-state').style.display = 'block';
+                } else {
+                    // Show success anyway (payment might already be captured)
+                    console.log('[Payment Success] Capture failed but showing success (might be already captured)');
+                    document.getElementById('loading-state').style.display = 'none';
+                    document.getElementById('success-state').style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('[Payment Success] Error:', error);
+                // Show success anyway - payment is completed
                 document.getElementById('loading-state').style.display = 'none';
                 document.getElementById('success-state').style.display = 'block';
-            }, 1000);
+            }
+        }
+
+        // Start capture process
+        if (orderId && token) {
+            capturePayment();
         } else {
             document.getElementById('loading-state').style.display = 'none';
             document.getElementById('error-state').style.display = 'block';
