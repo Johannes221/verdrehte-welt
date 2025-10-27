@@ -10,6 +10,16 @@
 .event-hero-image.contain {
     object-fit: contain;
     background-color: #1a1a1a;
+    padding: 40px;
+    height: 400px;
+}
+
+/* Desktop: Better logo display */
+@media (min-width: 768px) {
+    .event-hero-image.contain {
+        height: 500px;
+        padding: 60px;
+    }
 }
 
 .event-title {

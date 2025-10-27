@@ -8,8 +8,9 @@ const EVENTS_DATA = [
         location: 'Café-Leitstelle',
         address: 'Emil-Maier-Straße 16, 69115 Heidelberg',
         genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
-        image: 'images/events/event-1.jpg',
-        imagePosition: '50% 30%',
+        image: 'images/logo.png',
+        imageType: 'contain',
+        imagePosition: '50% 50%',
         description: `
             <p>Verdrehte Welt präsentiert: Eine unvergessliche Nacht im Café-Leitstelle Heidelberg!</p>
             <p>Tauche ein in die pulsierende Welt des Technos und erlebe einen Abend voller energiegeladener Beats, hypnotischer Melodien und düsterer Klänge. Unsere DJs verwandeln das Café-Leitstelle in ein techno-paradies, in dem die Nacht zum Tag wird.</p>
@@ -50,8 +51,8 @@ const EVENTS_DATA = [
         location: 'Im Weiher',
         address: 'Im Weiher, 69121 Heidelberg',
         genres: ['Hard Techno', 'Melodic Techno', 'Dark Techno'],
-        image: 'images/events/event-2.jpg',
-        imagePosition: '50% 50%',
+        image: 'images/events/event-1.jpg',
+        imagePosition: '50% 30%',
         description: `
             <p><strong style="color: #999;">✓ Vergangenes Event</strong></p>
             <p>Bereite dich auf eine unvergessliche Nacht voller energiegeladener Beats und atemberaubender Atmosphäre vor! Verdrehte Welt bringt die besten Techno-Sounds nach Dossenheim.</p>
