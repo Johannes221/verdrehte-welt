@@ -13,6 +13,8 @@ app.use(cors({
         'http://localhost:3000',
         'https://verdrehte-welt.pages.dev',
         'https://*.verdrehte-welt.pages.dev', // Cloudflare preview URLs
+        'https://verdrehte-welt.com',
+        'https://www.verdrehte-welt.com',
         process.env.FRONTEND_URL
     ].filter(Boolean),
     credentials: true,
