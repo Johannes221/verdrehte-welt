@@ -4,6 +4,16 @@ const Ticket = require('../models/Ticket');
 const Order = require('../models/Order');
 const { verifyQRToken } = require('../services/ticketGeneration');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
+
+// Rate Limiter für Login: Max 5 Versuche pro 15 Minuten
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 Minuten
+    max: 5, // Max 5 Requests
+    message: { error: 'Zu viele Login-Versuche. Bitte warte 15 Minuten.' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
 
 // Admin credentials (in production: use proper auth system)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'verdrehtewelt2025';
@@ -29,8 +39,8 @@ function requireAdminAuth(req, res, next) {
     }
 }
 
-// Admin Login
-router.post('/login', async (req, res) => {
+// Admin Login (mit Rate Limiting)
+router.post('/login', loginLimiter, async (req, res) => {
     try {
         const { password } = req.body;
         

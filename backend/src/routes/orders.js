@@ -1,9 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
+const rateLimit = require('express-rate-limit');
 
-// Create Order
-router.post('/create', async (req, res) => {
+// Rate Limiter für Order-Erstellung: Max 3 Orders pro 5 Minuten pro IP
+const createOrderLimiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 Minuten
+    max: 3, // Max 3 Bestellungen
+    message: { error: 'Zu viele Bestellungen. Bitte warte 5 Minuten.' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+// Create Order (mit Rate Limiting)
+router.post('/create', createOrderLimiter, async (req, res) => {
     try {
         const {
             email,
@@ -19,6 +29,17 @@ router.post('/create', async (req, res) => {
         // Validation
         if (!email || !eventId || !tickets || tickets.length === 0) {
             return res.status(400).json({ error: 'Fehlende Pflichtfelder' });
+        }
+        
+        // Email validation (einfache Regex)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: 'Ungültige Email-Adresse' });
+        }
+        
+        // Type validation (gegen NoSQL Injection)
+        if (typeof email !== 'string' || typeof eventId !== 'string') {
+            return res.status(400).json({ error: 'Ungültige Datentypen' });
         }
         
         if (!agbAkzeptiert || !dsgvoAkzeptiert || !widerrufsbelehrungGelesen) {
