@@ -33,7 +33,7 @@ function getEventId() {
 }
 
 // Load Event Details
-function loadEventDetails() {
+async function loadEventDetails() {
     const eventId = getEventId();
     const event = EVENTS_DATA.find(e => e.id === eventId);
     
@@ -50,6 +50,27 @@ function loadEventDetails() {
     currentEvent = event;
     document.title = `${event.title} - Verdrehte Welt`;
     
+    // Fetch ticket availability from backend
+    let backendTickets = {};
+    try {
+        const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.event && data.event.tickets) {
+                // Create a map of ticket availability by ID
+                data.event.tickets.forEach(t => {
+                    backendTickets[t.id] = {
+                        verkauft: t.verkauft || 0,
+                        verfuegbar: t.verfuegbar || 0,
+                        kontingent: t.kontingent || 0
+                    };
+                });
+            }
+        }
+    } catch (error) {
+        console.log('[Event Detail] Could not fetch ticket availability from backend:', error);
+    }
+    
     const imageClass = event.imageType === 'contain' ? 'contain' : '';
     const imageStyle = event.imagePosition ? `object-position: ${event.imagePosition};` : '';
     
@@ -63,18 +84,28 @@ function loadEventDetails() {
                 <div style="margin: 30px 0;">
                     ${event.tickets.map(ticket => {
                         const available = isTicketAvailable(ticket);
+                        const backendInfo = backendTickets[ticket.id];
+                        const hasBackendInfo = backendInfo && backendInfo.kontingent > 0;
+                        const verfuegbar = hasBackendInfo ? backendInfo.verfuegbar : null;
+                        const verkauft = hasBackendInfo ? backendInfo.verkauft : null;
+                        
+                        // Check if sold out
+                        const isSoldOut = hasBackendInfo && verfuegbar <= 0;
+                        const isAvailable = available && !isSoldOut;
+                        
                         return `
-                        <div class="ticket-option" style="${!available ? 'opacity: 0.6;' : ''}">
+                        <div class="ticket-option" style="${!isAvailable ? 'opacity: 0.6;' : ''}">
                             <div class="ticket-info">
                                 <div class="ticket-name">${ticket.name}</div>
                                 ${ticket.description ? `<div class="ticket-description">${ticket.description}</div>` : ''}
-                                ${!available ? `<div class="ticket-note">Derzeit nicht verfügbar</div>` : ''}
+                                ${hasBackendInfo ? `<div class="ticket-note" style="color: ${isSoldOut ? '#f44336' : '#4caf50'}; font-weight: 500;">${isSoldOut ? '❌ Ausverkauft' : `✓ Noch ${verfuegbar} verfügbar`} (${verkauft} verkauft)</div>` : ''}
+                                ${!available && !isSoldOut ? `<div class="ticket-note">Derzeit nicht verfügbar</div>` : ''}
                             </div>
                             <div class="ticket-action">
                                 <div class="ticket-price">${ticket.price.toFixed(2)} €</div>
-                                ${available
+                                ${isAvailable
                                     ? `<button class="btn" onclick="selectTicket('${ticket.id}')">Auswählen</button>`
-                                    : `<button class="btn" style="opacity: 0.6; cursor: not-allowed;" disabled>Nicht verfügbar</button>`
+                                    : `<button class="btn" style="opacity: 0.6; cursor: not-allowed;" disabled>${isSoldOut ? 'Ausverkauft' : 'Nicht verfügbar'}</button>`
                                 }
                             </div>
                         </div>
