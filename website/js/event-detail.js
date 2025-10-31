@@ -1,7 +1,9 @@
 // Event Detail Page JavaScript
 
-// API Base URL - Production
-const API_BASE_URL = 'https://verdrehte-welt.onrender.com/api/v1';
+// API Configuration - Development: localhost:3000
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000/api/v1' 
+    : 'https://verdrehte-welt.onrender.com/api/v1';
 
 let currentEvent = null;
 let selectedTicket = null;
@@ -85,12 +87,13 @@ async function loadEventDetails() {
                     ${event.tickets.map(ticket => {
                         const available = isTicketAvailable(ticket);
                         const backendInfo = backendTickets[ticket.id];
-                        const hasBackendInfo = backendInfo && backendInfo.kontingent > 0;
-                        const verfuegbar = hasBackendInfo ? backendInfo.verfuegbar : null;
-                        const verkauft = hasBackendInfo ? backendInfo.verkauft : null;
+                        const hasBackendInfo = backendInfo && typeof backendInfo.verkauft !== 'undefined';
+                        const verfuegbar = hasBackendInfo ? backendInfo.verfuegbar : ticket.maxTickets || 0;
+                        const verkauft = hasBackendInfo ? backendInfo.verkauft : 0;
+                        const kontingent = hasBackendInfo ? backendInfo.kontingent : ticket.maxTickets || 0;
                         
                         // Check if sold out
-                        const isSoldOut = hasBackendInfo && verfuegbar <= 0;
+                        const isSoldOut = kontingent > 0 && verfuegbar <= 0;
                         const isAvailable = available && !isSoldOut;
                         
                         return `
@@ -98,7 +101,7 @@ async function loadEventDetails() {
                             <div class="ticket-info">
                                 <div class="ticket-name">${ticket.name}</div>
                                 ${ticket.description ? `<div class="ticket-description">${ticket.description}</div>` : ''}
-                                ${hasBackendInfo ? `<div class="ticket-note" style="color: ${isSoldOut ? '#f44336' : '#4caf50'}; font-weight: 500;">${isSoldOut ? '❌ Ausverkauft' : `✓ Noch ${verfuegbar} verfügbar`} (${verkauft} verkauft)</div>` : ''}
+                                ${kontingent > 0 ? `<div class="ticket-note" style="color: ${isSoldOut ? '#f44336' : '#4caf50'}; font-weight: 500; margin-top: 8px;">${isSoldOut ? '❌ Ausverkauft' : `✓ Noch ${verfuegbar} verfügbar`} (${verkauft} verkauft)</div>` : ''}
                                 ${!available && !isSoldOut ? `<div class="ticket-note">Derzeit nicht verfügbar</div>` : ''}
                             </div>
                             <div class="ticket-action">
