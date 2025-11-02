@@ -18,30 +18,30 @@ const EVENTS_DATA = [
         tickets: [
             {
                 id: 'phase-1',
-                name: 'Phase 1 (35 Tickets)',
+                name: 'Phase 1',
                 price: 8.00,
                 availableFrom: null,
                 availableUntil: '2025-11-09T23:59:59',
                 maxTickets: 35,
-                description: 'Verfügbar bis 09.11.2025 - Limitiert auf 35 Tickets'
+                description: 'Verfügbar bis 09.11.2025'
             },
             {
                 id: 'phase-2',
-                name: 'Phase 2 (50 Tickets)',
+                name: 'Phase 2',
                 price: 10.00,
                 availableFrom: '2025-11-10T00:00:00',
                 availableUntil: '2025-11-19T23:59:59',
                 maxTickets: 50,
-                description: 'Verfügbar 10.11. - 19.11.2025 - Limitiert auf 50 Tickets'
+                description: 'Verfügbar 10.11. - 19.11.2025'
             },
             {
                 id: 'phase-3',
-                name: 'Phase 3 (65 Tickets)',
+                name: 'Phase 3',
                 price: 12.00,
                 availableFrom: '2025-11-20T00:00:00',
                 availableUntil: '2025-11-27T23:59:59',
                 maxTickets: 65,
-                description: 'Verfügbar 20.11. - 27.11.2025 - Limitiert auf 65 Tickets'
+                description: 'Verfügbar 20.11. - 27.11.2025'
             },
             {
                 id: 'abendkasse',
@@ -49,7 +49,7 @@ const EVENTS_DATA = [
                 price: 15.00,
                 availableFrom: '2025-11-28T00:00:00',
                 availableUntil: null,
-                description: 'Nur am Event-Tag vor Ort - Limitiert | ⚠️ NUR BARGELD - keine Kartenzahlung'
+                description: 'Nur am Event-Tag vor Ort | ⚠️ NUR BARGELD - keine Kartenzahlung'
             }
         ],
         status: 'available'
