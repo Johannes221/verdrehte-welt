@@ -19,6 +19,25 @@ function parseEventDate(dateString) {
     return parsedDate;
 }
 
+// Check if ticket is currently available based on date
+function isTicketAvailable(ticket) {
+    const now = new Date();
+    
+    // Check availableFrom
+    if (ticket.availableFrom) {
+        const from = new Date(ticket.availableFrom);
+        if (now < from) return false;
+    }
+    
+    // Check availableUntil
+    if (ticket.availableUntil) {
+        const until = new Date(ticket.availableUntil);
+        if (now > until) return false;
+    }
+    
+    return true;
+}
+
 // Check if event is in the past
 function isEventPast(event) {
     // If explicitly marked as past, it's past
@@ -46,11 +65,10 @@ function renderEventCard(event) {
         ticketInfo = '<p class="event-card-price" style="opacity: 0.6;">Event beendet</p>';
         buttonHtml = `<a href="event.html?id=${event.id}" class="btn btn-outline" style="width: 100%; text-align: center; opacity: 0.6;">Details ansehen</a>`;
     } else if (event.status === 'available' && event.tickets.length > 0) {
-        const mainTicket = event.tickets.find(t => t.available) || event.tickets[0];
+        const mainTicket = event.tickets.find(t => isTicketAvailable(t)) || event.tickets[0];
         ticketInfo = `
             <p class="event-card-price">
                 ${mainTicket.name}: ${mainTicket.price.toFixed(2)} €
-                ${mainTicket.availableUntil ? `<br><span style="font-size: 0.9rem; opacity: 0.7;">(bis ${mainTicket.availableUntil})</span>` : ''}
             </p>
         `;
         buttonHtml = `<a href="event.html?id=${event.id}" class="btn btn-outline" style="width: 100%; text-align: center;">Ticket sichern</a>`;

@@ -65,19 +65,19 @@ async function loadEventDetails() {
                 <div style="margin: 30px 0;">
                     ${event.tickets.map(ticket => {
                         const available = isTicketAvailable(ticket);
+                        const isSoldOut = ticket.description === 'Ausverkauft';
                         
                         return `
                         <div class="ticket-option" style="${!available ? 'opacity: 0.6;' : ''}">
                             <div class="ticket-info">
                                 <div class="ticket-name">${ticket.name}</div>
                                 ${ticket.description ? `<div class="ticket-description">${ticket.description}</div>` : ''}
-                                ${!available ? `<div class="ticket-note">Derzeit nicht verfügbar</div>` : ''}
                             </div>
                             <div class="ticket-action">
                                 <div class="ticket-price">${ticket.price.toFixed(2)} €</div>
                                 ${available
                                     ? `<button class="btn" onclick="selectTicket('${ticket.id}')">Auswählen</button>`
-                                    : `<button class="btn" style="opacity: 0.6; cursor: not-allowed;" disabled>Nicht verfügbar</button>`
+                                    : `<button class="btn" style="opacity: 0.6; cursor: not-allowed;" disabled>${isSoldOut ? 'Ausverkauft' : 'Nicht verfügbar'}</button>`
                                 }
                             </div>
                         </div>

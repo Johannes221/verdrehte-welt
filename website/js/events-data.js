@@ -21,27 +21,27 @@ const EVENTS_DATA = [
                 name: 'Phase 1',
                 price: 8.00,
                 availableFrom: null,
-                availableUntil: '2025-11-09T23:59:59',
+                availableUntil: '2025-11-08T23:59:59',
                 maxTickets: 35,
-                description: 'Verfügbar bis 09.11.2025'
+                description: 'Ausverkauft'
             },
             {
                 id: 'phase-2',
                 name: 'Phase 2',
                 price: 10.00,
-                availableFrom: '2025-11-10T00:00:00',
-                availableUntil: '2025-11-19T23:59:59',
+                availableFrom: null,
+                availableUntil: null,
                 maxTickets: 50,
-                description: 'Verfügbar 10.11. - 19.11.2025'
+                description: ''
             },
             {
                 id: 'phase-3',
                 name: 'Phase 3',
                 price: 12.00,
-                availableFrom: '2025-11-20T00:00:00',
-                availableUntil: '2025-11-27T23:59:59',
+                availableFrom: '2099-12-31T00:00:00',
+                availableUntil: null,
                 maxTickets: 65,
-                description: 'Verfügbar 20.11. - 27.11.2025'
+                description: 'Noch nicht verfügbar'
             },
             {
                 id: 'abendkasse',
