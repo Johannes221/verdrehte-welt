@@ -30,24 +30,15 @@ const EVENTS_DATA = [
                 name: 'Phase 2',
                 price: 10.00,
                 availableFrom: null,
-                availableUntil: null,
+                availableUntil: '2025-11-26T23:59:59',
                 maxTickets: 50,
                 description: ''
             },
             {
-                id: 'phase-3',
-                name: 'Phase 3',
-                price: 12.00,
-                availableFrom: '2099-12-31T00:00:00',
-                availableUntil: null,
-                maxTickets: 65,
-                description: 'Noch nicht verfügbar'
-            },
-            {
                 id: 'abendkasse',
                 name: 'Abendkasse',
-                price: 15.00,
-                availableFrom: '2025-11-28T00:00:00',
+                price: 12.00,
+                availableFrom: '2025-11-27T00:00:00',
                 availableUntil: null,
                 description: 'Nur am Event-Tag vor Ort | ⚠️ NUR BARGELD - keine Kartenzahlung'
             }
