@@ -38,9 +38,9 @@ const EVENTS_DATA = [
                 id: 'abendkasse',
                 name: 'Abendkasse',
                 price: 12.00,
-                availableFrom: '2025-11-27T00:00:00',
+                availableFrom: '2099-12-31T00:00:00',
                 availableUntil: null,
-                description: 'Nur am Event-Tag vor Ort | ⚠️ NUR BARGELD - keine Kartenzahlung'
+                description: 'Nur vor Ort am Event-Tag | ⚠️ NUR BARGELD - keine Kartenzahlung'
             }
         ],
         status: 'available'
