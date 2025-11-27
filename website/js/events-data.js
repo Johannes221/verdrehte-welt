@@ -30,7 +30,7 @@ const EVENTS_DATA = [
                 name: 'Phase 2',
                 price: 10.00,
                 availableFrom: null,
-                availableUntil: '2025-11-26T23:59:59',
+                availableUntil: '2025-11-27T23:59:59',
                 maxTickets: 50,
                 description: ''
             },
