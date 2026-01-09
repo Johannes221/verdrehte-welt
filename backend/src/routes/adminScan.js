@@ -6,10 +6,10 @@ const { verifyQRToken } = require('../services/ticketGeneration');
 const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 
-// Rate Limiter für Login: Max 5 Versuche pro 15 Minuten
+// Rate Limiter für Login: Max 20 Versuche pro 15 Minuten
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 Minuten
-    max: 5, // Max 5 Requests
+    max: 20, // Max 20 Requests
     message: { error: 'Zu viele Login-Versuche. Bitte warte 15 Minuten.' },
     standardHeaders: true,
     legacyHeaders: false
