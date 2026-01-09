@@ -194,7 +194,7 @@ fetch('http://localhost:3000/api/v1/events')
 
 ### MongoDB prüfen:
 ```bash
-mongosh "mongodb+srv://verdrehteweltev_db_user:Dtg43DEI3AiwqT4t@cluster0.o3skdqm.mongodb.net/verdrehte-welt"
+mongosh "<DEINE_MONGODB_URI>"
 
 # Im mongo shell:
 show collections

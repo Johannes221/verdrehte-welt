@@ -15,7 +15,7 @@
 
 ## 📧 EMAIL SERVICE STATUS
 
-**Aktuell:** Resend API Key ist in `.env` konfiguriert: `re_36U7jYVh_4v36Hb5t4g4CCuCNqDngDQWt`
+**Aktuell:** Resend API Key ist in `.env` konfiguriert
 
 **Warum kam keine Email?**
 
@@ -66,7 +66,7 @@ PAYPAL_MODE=live
 JWT_SECRET=<generiertes Secret>
 ADMIN_PASSWORD=verdrehtewelt2025
 FRONTEND_URL=https://verdrehtewelt.pages.dev
-MAIL_API_KEY=re_36U7jYVh_4v36Hb5t4g4CCuCNqDngDQWt
+MAIL_API_KEY=<DEIN_RESEND_API_KEY>
 MAIL_FROM=noreply@verdrehtewelt.de
 ```
 
@@ -223,7 +223,7 @@ zip -r ../website-update.zip *
 
 3. **SMTP Settings prüfen:**
    ```
-   MAIL_API_KEY=re_36U7jYVh_4v36Hb5t4g4CCuCNqDngDQWt
+   MAIL_API_KEY=<DEIN_RESEND_API_KEY>
    MAIL_FROM=noreply@verdrehtewelt.de
    ```
 

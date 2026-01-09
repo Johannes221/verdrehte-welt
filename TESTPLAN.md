@@ -147,7 +147,7 @@ Nachname: User
 
 **Terminal:**
 ```bash
-mongosh "mongodb+srv://verdrehteweltev_db_user:Dtg43DEI3AiwqT4t@cluster0.o3skdqm.mongodb.net/verdrehte-welt"
+mongosh "<DEINE_MONGODB_URI>"
 
 # Im MongoDB Shell:
 show collections
@@ -338,7 +338,7 @@ tail -f backend/logs/app.log
 
 **MongoDB:**
 ```bash
-mongosh "mongodb+srv://..."
+mongosh "<DEINE_MONGODB_URI>"
 show collections
 db.orders.find().sort({erstellt_at: -1}).limit(5).pretty()
 ```

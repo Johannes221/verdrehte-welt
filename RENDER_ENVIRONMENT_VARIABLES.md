@@ -46,24 +46,24 @@ NODE_ENV=production
 FRONTEND_URL=https://verdrehte-welt.pages.dev
 
 # MongoDB
-MONGODB_URI=mongodb+srv://verdrehteweltev_db_user:Dtg43DEI3AiwqT4t@cluster0.o3skdqm.mongodb.net/verdrehte-welt?retryWrites=true&w=majority
+MONGODB_URI=<DEINE_MONGODB_URI_HIER>
 
 # PayPal (LIVE)
-PAYPAL_CLIENT_ID=AXq-jYNsAuolmZfp4qb6lj5h2ugHN1_T59Ls5YtR6fuy-lhVANj3cTAItGuHEImGOyMwSP9vvqRsVhsl
-PAYPAL_CLIENT_SECRET=ELzf_4PHt1Nf8WnHGC36jWPnW2bjTnlY-xfV67DCk84w-icUZY9CwQwTC_FJFgOVxX_xlXY_IrraWWBD
+PAYPAL_CLIENT_ID=<DEINE_PAYPAL_CLIENT_ID>
+PAYPAL_CLIENT_SECRET=<DEIN_PAYPAL_SECRET>
 PAYPAL_MODE=live
 
 # Email - Resend
-MAIL_API_KEY=re_36U7jYVh_4v36Hb5t4g4CCuCNqDngDQWt
+MAIL_API_KEY=<DEIN_RESEND_API_KEY>
 MAIL_FROM=onboarding@resend.dev
 INTERNAL_NOTIFICATION_EMAIL=verdrehte.welt.ev@gmail.com
 
 # JWT
-JWT_SECRET=verdrehte-welt-super-secret-key-2025-change-in-production-min-32-chars
+JWT_SECRET=<DEIN_JWT_SECRET_MIN_32_ZEICHEN>
 JWT_EXPIRY=365d
 
 # Admin
-ADMIN_PASSWORD=verdrehtewelt2025
+ADMIN_PASSWORD=<DEIN_ADMIN_PASSWORT>
 PLATFORM_FEE_PERCENTAGE=5
 ```
 
