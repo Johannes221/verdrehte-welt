@@ -16,17 +16,6 @@ const EVENTS = [
         description: 'Nach der megageilen Party in der Leitstelle am 28.11. starten wir erneut ins neue Jahr. Ab 21 Uhr beginnen wir mit entspannter House-Musik der ersten Stunde, ab 22 Uhr drehen wir dann richtig auf mit unseren Acts. Die Party geht wie gewohnt bis 5 Uhr morgens. Wir freuen uns auf euch, verdrehte Welt.',
         tickets: [
             {
-                id: 'test',
-                name: 'Testticket',
-                price: 0.05,
-                available: true,
-                availableFrom: null,
-                availableUntil: '2026-01-28T23:59:59',
-                kontingent: 10,
-                verkauft: 0,
-                description: 'Test-Ticket für PayPal-Tests (5 Cent)'
-            },
-            {
                 id: 'vorverkauf',
                 name: 'Vorverkauf',
                 price: 8.00,

@@ -18,15 +18,6 @@ const EVENTS_DATA = [
         `,
         tickets: [
             {
-                id: 'test',
-                name: 'Testticket',
-                price: 0.05,
-                availableFrom: null,
-                availableUntil: '2026-01-28T23:59:59',
-                maxTickets: 10,
-                description: 'Test-Ticket für PayPal-Tests (5 Cent)'
-            },
-            {
                 id: 'vorverkauf',
                 name: 'Vorverkauf',
                 price: 8.00,
