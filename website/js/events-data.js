@@ -22,7 +22,7 @@ const EVENTS_DATA = [
                 name: 'Testticket',
                 price: 0.05,
                 availableFrom: null,
-                availableUntil: '2026-01-31T20:59:59',
+                availableUntil: '2026-01-28T23:59:59',
                 maxTickets: 10,
                 description: 'Test-Ticket für PayPal-Tests (5 Cent)'
             },
@@ -31,9 +31,9 @@ const EVENTS_DATA = [
                 name: 'Vorverkauf',
                 price: 8.00,
                 availableFrom: null,
-                availableUntil: '2026-01-31T20:59:59',
+                availableUntil: '2026-01-28T23:59:59',
                 maxTickets: 100,
-                description: 'Online-Vorverkauf bis 21:00 Uhr am Event-Tag'
+                description: 'Online-Vorverkauf bis 28.01. um 23:59 Uhr (3 Tage vor Event)'
             },
             {
                 id: 'abendkasse',

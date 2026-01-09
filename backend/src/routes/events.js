@@ -21,7 +21,7 @@ const EVENTS = [
                 price: 0.05,
                 available: true,
                 availableFrom: null,
-                availableUntil: '2026-01-31T20:59:59',
+                availableUntil: '2026-01-28T23:59:59',
                 kontingent: 10,
                 verkauft: 0,
                 description: 'Test-Ticket für PayPal-Tests (5 Cent)'
@@ -32,10 +32,10 @@ const EVENTS = [
                 price: 8.00,
                 available: true,
                 availableFrom: null,
-                availableUntil: '2026-01-31T20:59:59',
+                availableUntil: '2026-01-28T23:59:59',
                 kontingent: 100,
                 verkauft: 0,
-                description: 'Online-Vorverkauf bis 21:00 Uhr am Event-Tag'
+                description: 'Online-Vorverkauf bis 28.01. um 23:59 Uhr (3 Tage vor Event)'
             },
             {
                 id: 'abendkasse',
