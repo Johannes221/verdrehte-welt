@@ -140,6 +140,139 @@ async function sendTicketEmail(email, tickets, order) {
     }
 }
 
+async function sendInternalOrderNotification(order) {
+    try {
+        const internalEmail = process.env.INTERNAL_NOTIFICATION_EMAIL;
+        if (!internalEmail) {
+            console.log('[Email] No internal notification email configured');
+            return;
+        }
+        
+        const orderDate = new Date(order.erstellt_at || order.createdAt);
+        const orderDetails = order.positionen.map(pos => 
+            `${pos.menge}x ${pos.bezeichnung} à ${pos.einzelpreisBrutto.toFixed(2)}€ = ${pos.summe.toFixed(2)}€`
+        ).join('\n');
+        
+        const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="margin: 0; padding: 0; background: #f4f4f4; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: #fff; padding: 30px; border-radius: 8px;">
+            <h2 style="color: #333; margin-top: 0;">Neue Ticketbestellung 🎫</h2>
+            
+            <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #4CAF50;">
+                <p style="margin: 5px 0;"><strong>Bestell-ID:</strong> ${order._id}</p>
+                <p style="margin: 5px 0;"><strong>Käufer:</strong> ${order.vorname} ${order.nachname}</p>
+                <p style="margin: 5px 0;"><strong>E-Mail:</strong> ${order.email}</p>
+                <p style="margin: 5px 0;"><strong>Kaufdatum:</strong> ${orderDate.toLocaleDateString('de-DE')}</p>
+                <p style="margin: 5px 0;"><strong>Kaufuhrzeit:</strong> ${orderDate.toLocaleTimeString('de-DE')}</p>
+                <p style="margin: 5px 0;"><strong>Event:</strong> ${order.eventId}</p>
+            </div>
+            
+            <h3 style="color: #333;">Bestellte Tickets:</h3>
+            <pre style="background: #f9f9f9; padding: 15px; border-radius: 4px; overflow-x: auto;">${orderDetails}</pre>
+            
+            <div style="margin: 20px 0; padding: 15px; background: #e8f5e9; border-radius: 4px;">
+                <p style="margin: 5px 0; font-size: 18px; font-weight: bold; color: #2e7d32;">Gesamtpreis: ${order.summeBrutto.toFixed(2)}€</p>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+                <p>Dies ist eine automatische Benachrichtigung über eine neue Bestellung.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+        `;
+        
+        if (resend) {
+            const emailData = {
+                from: process.env.MAIL_FROM || 'noreply@verdrehte-welt.com',
+                to: internalEmail,
+                subject: `🎫 Neue Bestellung: ${order._id}`,
+                html
+            };
+            
+            const data = await resend.emails.send(emailData);
+            console.log(`[Email] Internal notification sent, ID: ${data.id}`);
+            return data;
+        } else {
+            console.log(`[Email] DEV MODE - Would send internal notification to ${internalEmail}`);
+            return { messageId: 'dev-internal-' + Date.now() };
+        }
+        
+    } catch (error) {
+        console.error('[Email] Internal notification error:', error);
+        throw error;
+    }
+}
+
+async function sendCustomerEmailConfirmation(order) {
+    try {
+        const internalEmail = process.env.INTERNAL_NOTIFICATION_EMAIL;
+        if (!internalEmail) {
+            console.log('[Email] No internal notification email configured');
+            return;
+        }
+        
+        const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="margin: 0; padding: 0; background: #f4f4f4; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: #fff; padding: 30px; border-radius: 8px;">
+            <h2 style="color: #333; margin-top: 0;">✅ Kunden-E-Mail erfolgreich versendet</h2>
+            
+            <div style="margin: 20px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196F3;">
+                <p style="margin: 5px 0;"><strong>Bestell-ID:</strong> ${order._id}</p>
+                <p style="margin: 5px 0;"><strong>Empfänger:</strong> ${order.email}</p>
+                <p style="margin: 5px 0;"><strong>Zeitpunkt:</strong> ${new Date().toLocaleString('de-DE')}</p>
+                <p style="margin: 5px 0;"><strong>Gesamtbetrag:</strong> ${order.summeBrutto.toFixed(2)}€</p>
+            </div>
+            
+            <p style="color: #666;">Die Ticket-E-Mail mit QR-Codes wurde erfolgreich an den Kunden versendet.</p>
+            <p style="color: #666;">Diese Bestätigung kann für PayPal-Nachweise verwendet werden.</p>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+                <p>Dies ist eine automatische Bestätigung des E-Mail-Versands.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+        `;
+        
+        if (resend) {
+            const emailData = {
+                from: process.env.MAIL_FROM || 'noreply@verdrehte-welt.com',
+                to: internalEmail,
+                subject: `✅ E-Mail-Versand bestätigt: ${order._id}`,
+                html
+            };
+            
+            const data = await resend.emails.send(emailData);
+            console.log(`[Email] Customer email confirmation sent, ID: ${data.id}`);
+            return data;
+        } else {
+            console.log(`[Email] DEV MODE - Would send customer email confirmation to ${internalEmail}`);
+            return { messageId: 'dev-confirmation-' + Date.now() };
+        }
+        
+    } catch (error) {
+        console.error('[Email] Customer email confirmation error:', error);
+        throw error;
+    }
+}
+
 module.exports = {
-    sendTicketEmail
+    sendTicketEmail,
+    sendInternalOrderNotification,
+    sendCustomerEmailConfirmation
 };

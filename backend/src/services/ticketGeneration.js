@@ -3,7 +3,7 @@ const Ticket = require('../models/Ticket');
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
 const mongoose = require('mongoose');
-const { sendTicketEmail } = require('./emailService');
+const { sendTicketEmail, sendInternalOrderNotification, sendCustomerEmailConfirmation } = require('./emailService');
 
 // Generate Tickets for Order
 async function generateTicketsForOrder(bestellungId) {
@@ -46,13 +46,28 @@ async function generateTicketsForOrder(bestellungId) {
         
         console.log(`[Ticket Generation] Generated ${tickets.length} tickets for Order ${bestellungId}`);
         
-        // Send Email
+        // Send internal order notification
+        try {
+            await sendInternalOrderNotification(order);
+            console.log(`[Ticket Generation] Internal notification sent`);
+        } catch (notificationError) {
+            console.error('[Ticket Generation] Internal notification failed:', notificationError);
+        }
+        
+        // Send Email to Customer
         try {
             await sendTicketEmail(order.email, tickets, order);
-            console.log(`[Ticket Generation] Email sent to ${order.email}`);
+            console.log(`[Ticket Generation] Customer email sent to ${order.email}`);
+            
+            // Send confirmation that customer email was sent
+            try {
+                await sendCustomerEmailConfirmation(order);
+                console.log(`[Ticket Generation] Customer email confirmation sent`);
+            } catch (confirmError) {
+                console.error('[Ticket Generation] Customer email confirmation failed:', confirmError);
+            }
         } catch (emailError) {
-            console.error('[Ticket Generation] Email failed:', emailError);
-            // Don't throw - tickets are created, email is secondary
+            console.error('[Ticket Generation] Customer email failed:', emailError);
         }
         
         return tickets;
