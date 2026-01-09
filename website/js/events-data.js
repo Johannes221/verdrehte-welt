@@ -1,6 +1,53 @@
 // Event-Daten für Verdrehte Welt
 const EVENTS_DATA = [
     {
+        id: 'leitstelle-jan-2026',
+        title: 'Party in der Leitstelle',
+        date: '31.01.2026',
+        time: '21:00 – 05:00',
+        location: 'Café-Leitstelle',
+        address: 'Emil-Maier-Straße 16, 69115 Heidelberg',
+        genres: ['House', 'Hard Techno', 'Melodic Techno', 'Dark Techno'],
+        image: 'images/logo.png',
+        imageType: 'contain',
+        imagePosition: '50% 50%',
+        description: `
+            <p>Nach der megageilen Party in der Leitstelle am 28.11. starten wir erneut ins neue Jahr.</p>
+            <p>Ab 21 Uhr beginnen wir mit entspannter House-Musik der ersten Stunde, ab 22 Uhr drehen wir dann richtig auf mit unseren Acts.</p>
+            <p>Die Party geht wie gewohnt bis 5 Uhr morgens. Wir freuen uns auf euch, verdrehte Welt.</p>
+        `,
+        tickets: [
+            {
+                id: 'test',
+                name: 'Testticket',
+                price: 0.05,
+                availableFrom: null,
+                availableUntil: '2026-01-31T20:59:59',
+                maxTickets: 10,
+                description: 'Test-Ticket für PayPal-Tests (5 Cent)'
+            },
+            {
+                id: 'vorverkauf',
+                name: 'Vorverkauf',
+                price: 8.00,
+                availableFrom: null,
+                availableUntil: '2026-01-31T20:59:59',
+                maxTickets: 100,
+                description: 'Online-Vorverkauf bis 21:00 Uhr am Event-Tag'
+            },
+            {
+                id: 'abendkasse',
+                name: 'Abendkasse',
+                price: 10.00,
+                availableFrom: '2026-01-31T21:00:00',
+                availableUntil: null,
+                maxTickets: 0,
+                description: 'Nur vor Ort am Event-Tag | ⚠️ NUR BARGELD - keine Kartenzahlung'
+            }
+        ],
+        status: 'available'
+    },
+    {
         id: 'cafe-leitstelle-nov-2025',
         title: 'Party in der Leitstelle',
         date: '28.11.2025',
@@ -15,35 +62,8 @@ const EVENTS_DATA = [
             <p>Verdrehte Welt präsentiert: Eine unvergessliche Nacht im Café-Leitstelle Heidelberg!</p>
             <p>Tauche ein in die pulsierende Welt des Technos und erlebe einen Abend voller energiegeladener Beats, hypnotischer Melodien und düsterer Klänge. Unsere DJs verwandeln das Café-Leitstelle in ein techno-paradies, in dem die Nacht zum Tag wird.</p>
         `,
-        tickets: [
-            {
-                id: 'phase-1',
-                name: 'Phase 1',
-                price: 8.00,
-                availableFrom: null,
-                availableUntil: '2025-11-08T23:59:59',
-                maxTickets: 35,
-                description: 'Ausverkauft'
-            },
-            {
-                id: 'phase-2',
-                name: 'Phase 2',
-                price: 10.00,
-                availableFrom: null,
-                availableUntil: '2025-11-27T23:59:59',
-                maxTickets: 50,
-                description: ''
-            },
-            {
-                id: 'abendkasse',
-                name: 'Abendkasse',
-                price: 12.00,
-                availableFrom: '2099-12-31T00:00:00',
-                availableUntil: null,
-                description: 'Nur vor Ort am Event-Tag | ⚠️ NUR BARGELD - keine Kartenzahlung'
-            }
-        ],
-        status: 'available'
+        tickets: [],
+        status: 'past'
     },
     {
         id: 'private-rave-1-dossenheim',
