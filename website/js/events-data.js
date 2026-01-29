@@ -22,14 +22,34 @@ const EVENTS_DATA = [
                 name: 'Vorverkauf',
                 price: 8.00,
                 availableFrom: null,
-                availableUntil: '2026-01-28T23:59:59',
+                availableUntil: '2026-01-31T18:00:00',
                 maxTickets: 100,
-                description: 'Online-Vorverkauf bis 28.01. um 23:59 Uhr (3 Tage vor Event)'
+                description: 'Online-Vorverkauf bis 31.01. um 18:00 Uhr'
+            },
+            {
+                id: 'student',
+                name: 'Student',
+                price: 6.00,
+                availableFrom: null,
+                availableUntil: '2026-01-31T18:00:00',
+                maxTickets: 100,
+                description: 'bitte Studentenausweis mitbringen.'
+            },
+            {
+                id: 'student-abendkasse',
+                name: 'Student Abendkasse',
+                price: 8.00,
+                onlineAvailable: false,
+                availableFrom: '2026-01-31T21:00:00',
+                availableUntil: null,
+                maxTickets: 0,
+                description: '(Studentenausweis mitbringen) | ⚠️ NUR BARGELD - keine Kartenzahlung'
             },
             {
                 id: 'abendkasse',
                 name: 'Abendkasse',
                 price: 10.00,
+                onlineAvailable: false,
                 availableFrom: '2026-01-31T21:00:00',
                 availableUntil: null,
                 maxTickets: 0,

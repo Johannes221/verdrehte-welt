@@ -13,6 +13,8 @@ let selectedQuantity = 1;
 function isTicketAvailable(ticket) {
     const now = new Date();
     
+    if (ticket.onlineAvailable === false) return false;
+    
     // Check availableFrom
     if (ticket.availableFrom) {
         const from = new Date(ticket.availableFrom);

@@ -46,6 +46,11 @@ router.post('/create', createOrderLimiter, async (req, res) => {
             return res.status(400).json({ error: 'AGB, DSGVO und Widerrufsbelehrung müssen akzeptiert werden' });
         }
         
+        const forbiddenTicketVarianten = new Set(['abendkasse', 'student-abendkasse']);
+        if (tickets.some(t => forbiddenTicketVarianten.has(t.ticketVarianteId))) {
+            return res.status(400).json({ error: 'Abendkasse-Tickets sind nur vor Ort (nur Barzahlung) verfügbar' });
+        }
+        
         // Calculate totals
         const positionen = tickets.map(t => ({
             ticketVarianteId: t.ticketVarianteId,

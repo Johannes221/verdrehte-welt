@@ -23,6 +23,8 @@ function parseEventDate(dateString) {
 function isTicketAvailable(ticket) {
     const now = new Date();
     
+    if (ticket.onlineAvailable === false) return false;
+    
     // Check availableFrom
     if (ticket.availableFrom) {
         const from = new Date(ticket.availableFrom);
@@ -65,13 +67,20 @@ function renderEventCard(event) {
         ticketInfo = '<p class="event-card-price" style="opacity: 0.6;">Event beendet</p>';
         buttonHtml = `<a href="event.html?id=${event.id}" class="btn btn-outline" style="width: 100%; text-align: center; opacity: 0.6;">Details ansehen</a>`;
     } else if (event.status === 'available' && event.tickets.length > 0) {
-        const mainTicket = event.tickets.find(t => isTicketAvailable(t)) || event.tickets[0];
-        ticketInfo = `
-            <p class="event-card-price">
-                ${mainTicket.name}: ${mainTicket.price.toFixed(2)} €
-            </p>
-        `;
-        buttonHtml = `<a href="event.html?id=${event.id}" class="btn btn-outline" style="width: 100%; text-align: center;">Ticket sichern</a>`;
+        const availableTickets = event.tickets.filter(t => isTicketAvailable(t));
+        const mainTicket = availableTickets[0];
+        
+        if (mainTicket) {
+            ticketInfo = `
+                <p class="event-card-price">
+                    ${mainTicket.name}: ${mainTicket.price.toFixed(2)} €
+                </p>
+            `;
+            buttonHtml = `<a href="event.html?id=${event.id}" class="btn btn-outline" style="width: 100%; text-align: center;">Ticket sichern</a>`;
+        } else {
+            ticketInfo = '<p class="event-card-price" style="opacity: 0.6;">Tickets nicht verfügbar</p>';
+            buttonHtml = `<a href="event.html?id=${event.id}" class="btn btn-outline" style="width: 100%; text-align: center; opacity: 0.6;">Details ansehen</a>`;
+        }
     } else if (event.status === 'coming-soon') {
         ticketInfo = '<p class="event-card-price">TBD</p>';
         buttonHtml = `<a href="#" class="btn btn-outline" style="width: 100%; text-align: center; opacity: 0.5; cursor: not-allowed;">Bald verfügbar</a>`;

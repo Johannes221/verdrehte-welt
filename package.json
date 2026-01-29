@@ -4,7 +4,11 @@
   "description": "Verdrehte Welt Website - Static Site",
   "scripts": {
     "start": "echo 'Static site - no server needed'",
-    "build": "echo 'No build needed for static site'"
+    "build": "echo 'No build needed for static site'",
+    "typecheck": "echo 'No typecheck configured'",
+    "lint": "echo 'No lint configured'",
+    "test:backend": "npm --prefix backend test --",
+    "test:frontend": "echo 'No frontend tests'"
   },
   "dependencies": {
     "mongodb": "^6.20.0"
