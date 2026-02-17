@@ -5,6 +5,54 @@ const Order = require('../models/Order');
 // Static event data (könnte später aus DB kommen)
 const EVENTS = [
     {
+        id: 'leitstelle-mar-2026',
+        title: 'Rave Leitstelle 3.0',
+        date: '06.03.2026',
+        time: '21:30 – 05:00',
+        location: 'Café-Leitstelle',
+        address: 'Emil-Maier-Straße 16, 69115 Heidelberg',
+        genres: ['House', 'Techno'],
+        image: '/images/logo.png',
+        description: 'Sperrstunde & 1 Uhr Feierabend? Nicht mit uns! Wir gehen in die dritte Runde. Ab 21:30 Uhr entspannte Hausmusik, ab 23 Uhr Techno bis 5 Uhr morgens.',
+        tickets: [
+            {
+                id: 'vorverkauf',
+                name: 'Vorverkauf',
+                price: 8.00,
+                available: true,
+                availableFrom: null,
+                availableUntil: '2026-03-06T18:00:00',
+                kontingent: 100,
+                verkauft: 0,
+                description: 'Online-Vorverkauf bis 06.03. um 18:00 Uhr'
+            },
+            {
+                id: 'student',
+                name: 'Student Vorverkauf',
+                price: 7.00,
+                available: true,
+                availableFrom: null,
+                availableUntil: '2026-03-06T18:00:00',
+                kontingent: 100,
+                verkauft: 0,
+                description: 'Studentenausweis mitbringen'
+            },
+            {
+                id: 'abendkasse',
+                name: 'Abendkasse',
+                price: 10.00,
+                available: false,
+                onlineAvailable: false,
+                availableFrom: '2026-03-06T21:30:00',
+                availableUntil: null,
+                kontingent: 0,
+                verkauft: 0,
+                description: 'Nur am Event-Tag vor Ort | ⚠️ NUR BARGELD - keine Kartenzahlung'
+            }
+        ],
+        status: 'available'
+    },
+    {
         id: 'leitstelle-jan-2026',
         title: 'Party in der Leitstelle',
         date: '31.01.2026',
@@ -14,55 +62,8 @@ const EVENTS = [
         genres: ['House', 'Hard Techno', 'Melodic Techno', 'Dark Techno'],
         image: '/images/logo.png',
         description: 'Nach der megageilen Party in der Leitstelle am 28.11. starten wir erneut ins neue Jahr. Ab 21 Uhr beginnen wir mit entspannter House-Musik der ersten Stunde, ab 22 Uhr drehen wir dann richtig auf mit unseren Acts. Die Party geht wie gewohnt bis 5 Uhr morgens. Wir freuen uns auf euch, verdrehte Welt.',
-        tickets: [
-            {
-                id: 'vorverkauf',
-                name: 'Vorverkauf',
-                price: 8.00,
-                available: true,
-                availableFrom: null,
-                availableUntil: '2026-01-31T18:00:00',
-                kontingent: 100,
-                verkauft: 0,
-                description: 'Online-Vorverkauf bis 31.01. um 18:00 Uhr'
-            },
-            {
-                id: 'student',
-                name: 'Student',
-                price: 6.00,
-                available: true,
-                availableFrom: null,
-                availableUntil: '2026-01-31T18:00:00',
-                kontingent: 100,
-                verkauft: 0,
-                description: 'bitte Studentenausweis mitbringen.'
-            },
-            {
-                id: 'student-abendkasse',
-                name: 'Student Abendkasse',
-                price: 8.00,
-                available: false,
-                onlineAvailable: false,
-                availableFrom: '2026-01-31T21:00:00',
-                availableUntil: null,
-                kontingent: 0,
-                verkauft: 0,
-                description: '(Studentenausweis mitbringen) | ⚠️ NUR BARGELD - keine Kartenzahlung'
-            },
-            {
-                id: 'abendkasse',
-                name: 'Abendkasse',
-                price: 10.00,
-                available: false,
-                onlineAvailable: false,
-                availableFrom: '2026-01-31T21:00:00',
-                availableUntil: null,
-                kontingent: 0,
-                verkauft: 0,
-                description: 'Nur am Event-Tag vor Ort | ⚠️ NUR BARGELD - keine Kartenzahlung'
-            }
-        ],
-        status: 'available'
+        tickets: [],
+        status: 'past'
     },
     {
         id: 'cafe-leitstelle-nov-2025',
