@@ -13,7 +13,7 @@ const EVENTS = [
         address: 'Emil-Maier-Straße 16, 69115 Heidelberg',
         genres: ['House', 'Techno'],
         image: '/images/logo.png',
-        description: 'Sperrstunde & 1 Uhr Feierabend? Nicht mit uns! Wir gehen in die dritte Runde. Ab 21:30 Uhr entspannte Hausmusik, ab 23 Uhr Techno bis 5 Uhr morgens.',
+        description: 'Sperrstunde & 1 Uhr Feierabend? Nicht mit uns! Wir gehen in die dritte Runde. Ab 21:30 Uhr entspannte Musik, ab 23 Uhr Techno bis 5 Uhr morgens.',
         tickets: [
             {
                 id: 'vorverkauf',

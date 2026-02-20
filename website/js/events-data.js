@@ -13,9 +13,9 @@ const EVENTS_DATA = [
         imagePosition: '50% 50%',
         description: `
             <p><strong style="font-size: 1.2rem;">Sperrstunde & 1 Uhr Feierabend? Nicht mit uns!</strong></p>
-            <p>Wir gehen in die dritte Runde! Nach der geilen letzten Party bedanken wir uns bei allen, die dabei waren. Wir merken, es läuft langsam an, und wir freuen uns riesig, dass euch die Partys gefallen!</p>
+            <p>Wir gehen in die dritte Runde! Nach der geilen letzten Party bedanken wir uns bei allen, die dabei waren. Wir freuen uns riesig, dass euch die Partys gefallen!</p>
             <p>In Heidelberg gilt jetzt Sperrstunde ab 1 Uhr – aber bei uns geht's wie gewohnt bis 5 Uhr morgens!</p>
-            <p>Ab 21:30 Uhr spielen wir entspannte Hausmusik, und ab 23 Uhr geht's dann richtig los mit Techno.</p>
+            <p>Ab 21:30 Uhr spielen wir entspannte Musik, und ab 23 Uhr geht's dann richtig los mit Techno.</p>
             <p>Wir freuen uns auf euch!<br>Euer Verdrehte Welt Team</p>
         `,
         tickets: [
